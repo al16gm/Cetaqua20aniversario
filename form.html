@@ -102,6 +102,14 @@
     </style>
 </head>
 <body class="pb-48">
+    <div class="fixed top-6 left-6 z-50">
+        <a href="index.html" class="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
+            </svg>
+            Volver
+        </a>
+    </div>
     <div id="app" class="max-w-xl mx-auto px-4 pt-10">
         <!-- Header -->
         <div class="text-center mb-12">
@@ -148,8 +156,9 @@
                 <div class="text-8xl mb-4">💧</div>
                 <h2 class="text-4xl font-black text-sky-400 uppercase">¡MISIÓN CUMPLIDA!</h2>
                 <p class="text-slate-300 text-lg">Has sumado <span id="added-liters" class="font-bold text-white text-2xl"></span> Litros semanales.</p>
-                <div class="mt-10">
-                    <button onclick="location.reload()" class="bg-white/10 hover:bg-white/20 px-8 py-3 rounded-full font-bold transition-all">Nueva Misión</button>
+                <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="panel.html" class="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 px-8 py-4 rounded-full font-bold transition-all">Ver Impacto Global</a>
+                    <a href="index.html" class="w-full sm:w-auto bg-white/10 hover:bg-white/20 px-8 py-4 rounded-full font-bold transition-all">Volver al Inicio</a>
                 </div>
             </motion.div>
         </div>
@@ -382,3 +391,4 @@
     </script>
 </body>
 </html>
+
