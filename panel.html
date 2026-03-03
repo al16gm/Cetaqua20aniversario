@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard CETAQUA 20 - Huella Hídrica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0c1a32; 
+            color: #e2e8f0;
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(251, 191, 36, 0.15) 0%, transparent 50%),
+                linear-gradient(135deg, #0c1a32 0%, #1e293b 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        /* Elegant Geometric Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L50 0 L25 43.3 Z' fill='white' fill-opacity='0.01'/%3E%3Cpath d='M100 100 L50 100 L75 56.7 Z' fill='%23fbbf24' fill-opacity='0.015'/%3E%3Cpath d='M0 100 L0 50 L43.3 75 Z' fill='white' fill-opacity='0.01'/%3E%3Cpath d='M100 0 L100 50 L56.7 25 Z' fill='%23fbbf24' fill-opacity='0.015'/%3E%3C/svg%3E");
+            background-size: 400px 400px;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+            pointer-events: none;
+        }
+        
+        .gold-glow {
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+        }
+        
+        .progress-container {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            height: 48px;
+            position: relative;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 50px;
+            background: linear-gradient(to right, #059669, #10b981, #34d399);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        
+        .progress-thumb {
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #fbbf24, #d97706);
+            border: 3px solid #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.8);
+        }
+
+        .circular-progress {
+            position: relative;
+            width: 180px;
+            height: 180px;
+        }
+        .circular-progress svg {
+            transform: rotate(-90deg);
+        }
+        .circular-progress circle {
+            fill: none;
+            stroke-width: 12;
+            stroke-linecap: round;
+        }
+        .bg-circle { stroke: rgba(255, 255, 255, 0.1); }
+        .fg-circle {
+            stroke: #10b981;
+            stroke-dasharray: 440;
+            stroke-dashoffset: 440;
+            transition: stroke-dashoffset 1s ease-out;
+            filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
+        }
+
+        .donut-chart {
+            width: 220px;
+            height: 220px;
+        }
+        
+        .donut-chart svg {
+            width: 220px;
+            height: 220px;
+        }
+        
+        .horizontal-bar-container {
+            background: rgba(0, 0, 0, 0.2);
+            height: 32px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+            position: relative;
+        }
+        .horizontal-bar-fill {
+            height: 100%;
+            background: linear-gradient(to right, #0369a1, #0ea5e9);
+            border-radius: 16px;
+            transition: width 1s ease-in-out;
+        }
+        .horizontal-bar-thumb {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background: radial-gradient(circle, #fbbf24, #d97706);
+            border: 2px solid #fff;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body class="p-10 flex flex-col gap-10">
+    <!-- Header -->
+    <div class="text-center">
+        <h1 class="text-5xl font-black tracking-tighter uppercase gold-glow text-amber-200 mb-2">20º Aniversario de Cetaqua</h1>
+        <p class="text-sky-400 text-2xl font-bold uppercase tracking-[0.2em]">Huella Hídrica del Evento</p>
+    </div>
+
+    <!-- Top Row: Stats -->
+    <div class="grid grid-cols-4 gap-8 items-center">
+        <div class="glass-card p-6 text-center">
+            <p class="text-slate-400 text-sm font-bold uppercase mb-4">Huella del Evento:</p>
+            <div class="flex items-center justify-center gap-4">
+                <span class="text-4xl">💧</span>
+                <span id="total-huella" class="text-4xl font-black">--- m³</span>
+            </div>
+        </div>
+
+        <div class="glass-card p-6 text-center border-emerald-500/20">
+            <p class="text-slate-400 text-sm font-bold uppercase mb-4">Huella Compensada:</p>
+            <div class="flex items-center justify-center gap-4">
+                <span class="text-4xl">🌿</span>
+                <span id="comp-total" class="text-4xl font-black text-emerald-400">0 m³</span>
+            </div>
+        </div>
+
+        <div class="flex justify-center">
+            <div class="circular-progress">
+                <svg width="180" height="180">
+                    <circle class="bg-circle" cx="90" cy="90" r="70"></circle>
+                    <circle id="pct-circle" class="fg-circle" cx="90" cy="90" r="70"></circle>
+                </svg>
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <p class="text-slate-400 text-xs font-bold uppercase">% Compensado:</p>
+                    <p id="pct-text" class="text-5xl font-black">0%</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card p-6 text-center border-amber-500/20">
+            <p class="text-slate-400 text-sm font-bold uppercase mb-4">Huella Restante:</p>
+            <div class="flex items-center justify-center gap-4">
+                <span class="text-4xl">🔥</span>
+                <span id="restante" class="text-4xl font-black text-amber-400">0 m³</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Middle: Large Progress Bar -->
+    <div class="glass-card p-10">
+        <div class="progress-container mb-4">
+            <div id="progress-bar" class="progress-fill" style="width: 0%">
+                <div class="progress-thumb"></div>
+            </div>
+            <div class="absolute inset-0 flex items-center justify-between px-8 pointer-events-none">
+                <span id="progress-text" class="text-white font-black uppercase text-lg">0 m³ de agua compensada hasta ahora</span>
+                <span id="progress-pct" class="text-white font-black text-2xl">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom Row -->
+    <div class="grid grid-cols-2 gap-12">
+        <!-- Left: Origin Chart -->
+        <div class="glass-card p-8 flex flex-col items-center">
+            <h3 class="text-xl font-bold uppercase tracking-widest mb-8">Origen de la Compensación</h3>
+            <div class="flex items-center gap-12">
+                <div class="text-right">
+                    <p id="pct-asist" class="text-4xl font-black text-amber-400">0%</p>
+                    <p class="text-slate-400 text-sm font-bold uppercase">Asistentes</p>
+                </div>
+                <div class="donut-chart relative">
+                    <svg width="220" height="220">
+                        <circle class="bg-circle" cx="110" cy="110" r="80" stroke-width="30"></circle>
+                        <circle id="donut-fg" cx="110" cy="110" r="80" stroke-width="30" fill="none" stroke="#065f46" stroke-dasharray="502" stroke-dashoffset="502" transform="rotate(-90 110 110)"></circle>
+                    </svg>
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <span class="text-4xl">🌍</span>
+                    </div>
+                </div>
+                <div class="text-left">
+                    <p id="pct-fuente" class="text-4xl font-black text-emerald-400">0%</p>
+                    <p class="text-slate-400 text-sm font-bold uppercase">Fuente Externa</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Top Compromisos -->
+        <div class="glass-card p-8">
+            <h3 class="text-xl font-bold uppercase tracking-widest mb-8 text-center">Top Compromisos</h3>
+            <div id="top-list" class="space-y-6">
+                <!-- Dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Quote -->
+    <div class="text-center text-slate-500 italic text-sm mt-auto">
+        <p id="footer-quote">Gracias a todos los compromisos individuales, estamos compensando la huella hídrica del evento. ¡Sigamos adelante!</p>
+    </div>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz6Genf-zTrOgHpO9PvazHMSD0UA85sAkx4y5rSC6AuZBog_nTF66l20WAOsvjN96SFyA/exec';
+
+        async function updateDashboard() {
+            try {
+                const res = await fetch(`${SCRIPT_URL}?action=dashboard`);
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                
+                const data = await res.json();
+                console.log('Dashboard data:', data);
+
+                if (data.error) return;
+
+                // Stats
+                document.getElementById('total-huella').innerText = `${data.huella_total_m3 || 0} m³`;
+                document.getElementById('comp-total').innerText = `${(data.comp_m3_total || 0).toFixed(1)} m³`;
+                document.getElementById('restante').innerText = `${(data.restante_m3 || 0)} m³`;
+                
+                // Percentages
+                const pct = parseFloat(data.pct_compensado) || 0;
+                document.getElementById('pct-text').innerText = `${Math.round(pct)}%`;
+                document.getElementById('progress-pct').innerText = `${Math.round(pct)}%`;
+                
+                // Progress Bar
+                document.getElementById('progress-bar').style.width = `${pct}%`;
+                document.getElementById('progress-text').innerText = `${(data.comp_m3_total || 0).toFixed(1)} m³ de agua compensada hasta ahora`;
+
+                // Circular Progress
+                const circle = document.getElementById('pct-circle');
+                const radius = 70;
+                const circumference = 2 * Math.PI * radius;
+                const offset = circumference - (pct / 100) * circumference;
+                circle.style.strokeDasharray = `${circumference}`;
+                circle.style.strokeDashoffset = offset;
+
+                // Donut Chart (Asistentes vs Fuente)
+                const asistM3 = data.comp_m3_asist || 0;
+                const fuenteM3 = data.comp_m3_fuente || 0;
+                const totalComp = asistM3 + fuenteM3 || 1;
+                const asistPct = Math.round((asistM3 / totalComp) * 100);
+                const fuentePct = 100 - asistPct;
+
+                document.getElementById('pct-asist').innerText = `${asistPct}%`;
+                document.getElementById('pct-fuente').innerText = `${fuentePct}%`;
+                
+                const donutFg = document.getElementById('donut-fg');
+                const donutCirc = 2 * Math.PI * 80;
+                donutFg.style.strokeDasharray = `${donutCirc}`;
+                donutFg.style.strokeDashoffset = donutCirc - (asistPct / 100) * donutCirc;
+
+                // Top Compromisos
+                const topList = document.getElementById('top-list');
+                topList.innerHTML = '';
+                
+                if (data.top_compromisos && Array.isArray(data.top_compromisos)) {
+                    // Usamos escala logarítmica para que las barras pequeñas sean visibles
+                    // pero mantengan la jerarquía visual
+                    const getLogValue = (val) => Math.log10(val + 1);
+                    const maxCount = Math.max(...data.top_compromisos.map(c => c.count), 1);
+                    const maxLog = getLogValue(maxCount);
+
+                    data.top_compromisos.forEach((c, i) => {
+                        const currentLog = getLogValue(c.count);
+                        const barPct = maxLog > 0 ? (currentLog / maxLog) * 100 : 0;
+                        
+                        const item = document.createElement('div');
+                        item.className = 'space-y-2';
+                        item.innerHTML = `
+                            <div class="flex justify-between text-sm font-bold uppercase">
+                                <span>${c.label}</span>
+                                <span class="text-sky-400">${c.count.toLocaleString()} L</span>
+                            </div>
+                            <div class="horizontal-bar-container">
+                                <div class="horizontal-bar-fill" style="width: ${barPct}%">
+                                    <div class="horizontal-bar-thumb"></div>
+                                </div>
+                            </div>
+                        `;
+                        topList.appendChild(item);
+                    });
+                }
+
+            } catch (err) {
+                console.error('Error actualizando dashboard:', err);
+            }
+        }
+
+        setInterval(updateDashboard, 5000);
+        updateDashboard();
+    </script>
+</body>
+</html>
