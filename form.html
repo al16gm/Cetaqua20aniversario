@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compromiso Hídrico - CETAQUA 20</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/motion@11.11.13/dist/motion.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #0c1a32; 
+            color: #e2e8f0;
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(251, 191, 36, 0.15) 0%, transparent 50%),
+                linear-gradient(135deg, #0c1a32 0%, #1e293b 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        /* Elegant Geometric Pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 L50 0 L25 43.3 Z' fill='white' fill-opacity='0.01'/%3E%3Cpath d='M100 100 L50 100 L75 56.7 Z' fill='%23fbbf24' fill-opacity='0.015'/%3E%3Cpath d='M0 100 L0 50 L43.3 75 Z' fill='white' fill-opacity='0.01'/%3E%3Cpath d='M100 0 L100 50 L56.7 25 Z' fill='%23fbbf24' fill-opacity='0.015'/%3E%3C/svg%3E");
+            background-size: 400px 400px;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .premium-card {
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        .premium-card:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+            background: rgba(30, 41, 59, 0.6);
+        }
+        
+        /* Slider Styling */
+        input[type="range"] {
+            --pct: 0%;
+            -webkit-appearance: none;
+            width: 100%;
+            height: 16px;
+            background: linear-gradient(to right, #0ea5e9, #38bdf8) no-repeat, rgba(255, 255, 255, 0.05);
+            background-size: var(--pct) 100%;
+            border-radius: 20px;
+            outline: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: background-size 0.1s ease;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            cursor: pointer;
+            border: 2px solid #fff;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
+            transition: all 0.2s ease;
+            margin-top: -8px; /* Center thumb on track */
+            position: relative;
+            z-index: 5;
+        }
+        
+        .level-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 800;
+        }
+        
+        .color-0 { color: #64748b; }
+        .color-1 { color: #CD7F32; }
+        .color-2 { color: #C0C0C0; }
+        .color-3 { color: #fbbf24; }
+
+        .glow-text {
+            text-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+        }
+
+        .footer-fixed {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 50;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body class="pb-48">
+    <div id="app" class="max-w-xl mx-auto px-4 pt-10">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
+                <h1 class="text-4xl font-black tracking-tighter uppercase glow-text text-sky-400 mb-1">CETAQUA 20º</h1>
+                <div class="h-1 w-20 bg-sky-500 mx-auto rounded-full mb-4"></div>
+                <p class="text-slate-400 font-bold uppercase tracking-widest text-xs">Misiones de Ahorro de Agua</p>
+            </motion.div>
+        </div>
+
+        <!-- Formulario -->
+        <div id="form-container" class="space-y-8">
+            <div id="loading-commitments" class="text-center py-20">
+                <div class="w-12 h-12 border-4 border-sky-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p class="text-slate-500 font-bold uppercase tracking-widest text-xs">Cargando misiones...</p>
+            </div>
+
+            <div id="commitments-list" class="hidden space-y-6">
+                <!-- Dinámico -->
+            </div>
+
+            <div id="user-info" class="hidden space-y-6 pt-10 pb-12">
+                <div class="flex items-center gap-4 mb-2">
+                    <div class="h-px flex-1 bg-white/10"></div>
+                    <h3 class="text-xs font-black text-sky-400 uppercase tracking-[0.3em]">Tus Datos</h3>
+                    <div class="h-px flex-1 bg-white/10"></div>
+                </div>
+                <input type="text" id="nombre" placeholder="Nombre (opcional)" class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all placeholder:text-slate-600 font-semibold">
+                <input type="email" id="email" placeholder="Email (opcional)" class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all placeholder:text-slate-600 font-semibold">
+                <input type="text" id="organizacion" placeholder="Organización / Municipio (opcional)" class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all placeholder:text-slate-600 font-semibold">
+                
+                <div class="flex items-center gap-3 p-2">
+                    <input type="checkbox" id="privacy" class="w-5 h-5 rounded border-white/10 bg-white/5 text-sky-500 focus:ring-sky-500/20">
+                    <label for="privacy" class="text-xs text-slate-400 font-medium">Acepto la política de privacidad y el tratamiento de mis datos.</label>
+                </div>
+                
+                <input type="text" id="hp" class="hidden" value="">
+            </div>
+        </div>
+
+        <!-- Éxito -->
+        <div id="success-container" class="hidden py-20 text-center space-y-8">
+            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+                <div class="text-8xl mb-4">💧</div>
+                <h2 class="text-4xl font-black text-sky-400 uppercase">¡MISIÓN CUMPLIDA!</h2>
+                <p class="text-slate-300 text-lg">Has sumado <span id="added-liters" class="font-bold text-white text-2xl"></span> Litros semanales.</p>
+                <div class="mt-10">
+                    <button onclick="location.reload()" class="bg-white/10 hover:bg-white/20 px-8 py-3 rounded-full font-bold transition-all">Nueva Misión</button>
+                </div>
+            </motion.div>
+        </div>
+    </div>
+
+    <!-- Footer Fijo -->
+    <div id="footer" class="footer-fixed p-6 hidden">
+        <div class="max-w-xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="text-center md:text-left">
+                <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Ahorro Estimado Total</p>
+                <div class="flex items-baseline gap-2">
+                    <span id="total-liters-display" class="text-4xl font-black text-sky-400 glow-text">0</span>
+                    <span class="text-slate-500 font-bold">L/semana</span>
+                    <span id="total-m3-display" class="text-slate-400 text-sm ml-2">(0.000 m³)</span>
+                </div>
+            </div>
+            <button id="submit-btn" class="w-full md:w-auto bg-sky-500 hover:bg-sky-400 text-white font-black py-4 px-10 rounded-2xl transition-all shadow-lg shadow-sky-500/20 uppercase tracking-tighter disabled:opacity-50">
+                Confirmar Compromisos
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz6Genf-zTrOgHpO9PvazHMSD0UA85sAkx4y5rSC6AuZBog_nTF66l20WAOsvjN96SFyA/exec';
+        const TOKEN = '20cetaqua';
+
+        let commitments = [];
+        let selections = {};
+
+        async function init() {
+            const loadingEl = document.getElementById('loading-commitments');
+            try {
+                console.log('Iniciando carga de compromisos...');
+                const res = await fetch(`${SCRIPT_URL}?action=commitments`);
+                
+                if (!res.ok) {
+                    throw new Error(`Error de red: ${res.status} ${res.statusText}`);
+                }
+                
+                const data = await res.json();
+                console.log('Datos recibidos:', data);
+
+                if (data && data.error) {
+                    throw new Error(`Error del servidor: ${data.error}`);
+                }
+
+                if (!Array.isArray(data)) {
+                    throw new Error('La respuesta del servidor no es un listado válido.');
+                }
+
+                commitments = data;
+                renderCommitments();
+                document.getElementById('footer').classList.remove('hidden');
+            } catch (err) {
+                console.error('Error detallado:', err);
+                loadingEl.innerHTML = `
+                    <div class="p-6 bg-red-500/20 border border-red-500/50 rounded-2xl text-red-200 text-sm">
+                        <p class="font-bold mb-2">⚠️ Error al cargar misiones</p>
+                        <p class="mb-4">${err.message}</p>
+                        <button onclick="location.reload()" class="bg-red-500 text-white px-4 py-2 rounded-lg font-bold text-xs">Reintentar</button>
+                    </div>
+                `;
+            }
+        }
+
+        function renderCommitments() {
+            const list = document.getElementById('commitments-list');
+            list.innerHTML = '';
+            
+            if (!commitments || !Array.isArray(commitments)) {
+                console.error('Commitments no es un array:', commitments);
+                return;
+            }
+
+            commitments.forEach(c => {
+                selections[c.id] = { level: 0, liters: 0 };
+                
+                const card = document.createElement('div');
+                card.className = 'premium-card p-6 rounded-3xl space-y-4';
+                card.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div class="flex gap-3">
+                            <span class="text-3xl">${c.icon || '💧'}</span>
+                            <div>
+                                <h3 class="font-bold text-white leading-tight">${c.label || 'Compromiso'}</h3>
+                                <p class="text-xs text-slate-500">${c.desc || ''}</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p id="val-${c.id}" class="text-xl font-black text-slate-400">0 L</p>
+                            <p id="label-${c.id}" class="level-label color-0">Sin cambios</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-4 px-2">
+                        <input type="range" min="0" max="3" value="0" step="1" 
+                               id="slider-${c.id}"
+                               oninput="updateLevel('${c.id}', this.value)">
+                        <div class="flex justify-between mt-2 px-1">
+                            <span class="text-[10px] font-bold text-slate-600">0</span>
+                            <span class="text-[10px] font-bold text-slate-600">B</span>
+                            <span class="text-[10px] font-bold text-slate-600">P</span>
+                            <span class="text-[10px] font-bold text-slate-600">O</span>
+                        </div>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+
+            document.getElementById('loading-commitments').classList.add('hidden');
+            list.classList.remove('hidden');
+            document.getElementById('user-info').classList.remove('hidden');
+        }
+
+        function updateLevel(id, levelStr) {
+            const level = parseInt(levelStr);
+            const c = commitments.find(item => item.id === id);
+            if (!c) return;
+
+            let liters = 0;
+            let label = "Sin cambios";
+            const levelNames = ["Sin cambios", "Bronce", "Plata", "Oro"];
+
+            if (c.levels && c.levels[level] !== undefined) {
+                const levelInfo = c.levels[level];
+                if (typeof levelInfo === 'object') {
+                    liters = levelInfo.liters || 0;
+                    label = levelInfo.label || levelNames[level];
+                } else {
+                    liters = levelInfo;
+                    label = levelNames[level];
+                }
+            }
+            
+            selections[id] = { level: level, liters: liters };
+            
+            const valEl = document.getElementById(`val-${id}`);
+            const labelEl = document.getElementById(`label-${id}`);
+            const sliderEl = document.getElementById(`slider-${id}`);
+            
+            if (valEl) valEl.innerText = `${liters} L`;
+            if (labelEl) labelEl.innerText = label;
+            
+            if (valEl) valEl.className = `text-xl font-black color-${level} transition-all`;
+            if (labelEl) labelEl.className = `level-label color-${level} transition-all`;
+            
+            // Progressive Fill
+            if (sliderEl) {
+                const pct = (level / 3) * 100;
+                sliderEl.style.setProperty('--pct', `${pct}%`);
+            }
+            
+            const animate = window.motion ? window.motion.animate : (window.Motion ? window.Motion.animate : null);
+            if (level > 0 && valEl && animate) {
+                animate(valEl, { scale: [1, 1.2, 1] }, { duration: 0.3 });
+            }
+            
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let totalLiters = 0;
+            Object.keys(selections).forEach(id => {
+                totalLiters += selections[id].liters;
+            });
+            
+            const totalLitersEl = document.getElementById('total-liters-display');
+            const totalM3El = document.getElementById('total-m3-display');
+            
+            if (totalLitersEl) totalLitersEl.innerText = totalLiters;
+            if (totalM3El) totalM3El.innerText = `(${(totalLiters/1000).toFixed(3)} m³)`;
+            
+            const animate = window.motion ? window.motion.animate : (window.Motion ? window.Motion.animate : null);
+            if (totalLiters > 0 && totalLitersEl && animate) {
+                animate(totalLitersEl, { scale: [1, 1.1, 1] }, { duration: 0.2 });
+            }
+        }
+
+        document.getElementById('submit-btn').onclick = async () => {
+            if (!document.getElementById('privacy').checked) {
+                alert('Debes aceptar la política de privacidad para continuar.');
+                return;
+            }
+
+            const btn = document.getElementById('submit-btn');
+            btn.disabled = true;
+            btn.innerText = 'ENVIANDO...';
+
+            const payload = {
+                action: 'commit',
+                token: TOKEN,
+                nombre: document.getElementById('nombre').value,
+                email: document.getElementById('email').value,
+                organizacion: document.getElementById('organizacion').value,
+                selections: Object.keys(selections).map(id => ({
+                    id: id,
+                    level: selections[id].level,
+                    liters: selections[id].liters
+                })),
+                hp: document.getElementById('hp').value,
+                ua: navigator.userAgent
+            };
+
+            try {
+                const res = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                const result = await res.json();
+
+                if (result.ok) {
+                    document.getElementById('form-container').classList.add('hidden');
+                    document.getElementById('footer').classList.add('hidden');
+                    document.getElementById('success-container').classList.remove('hidden');
+                    document.getElementById('added-liters').innerText = result.added_liters;
+                } else {
+                    alert('Error: ' + (result.error || 'No se pudo procesar.'));
+                    btn.disabled = false;
+                    btn.innerText = 'Confirmar Compromisos';
+                }
+            } catch (err) {
+                console.error('Error:', err);
+                alert('Error de conexión.');
+                btn.disabled = false;
+                btn.innerText = 'Confirmar Compromisos';
+            }
+        };
+
+        init();
+    </script>
+</body>
+</html>
