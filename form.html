@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Compromiso Hídrico - CETAQUA 20</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/motion@11.11.13/dist/motion.js"></script>
+    <script src="https://unpkg.com/motion@10.16.2/dist/motion.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         body { 
@@ -19,7 +19,6 @@
             background-attachment: fixed;
             min-height: 100vh;
         }
-        /* Elegant Geometric Pattern */
         body::before {
             content: '';
             position: fixed;
@@ -41,7 +40,6 @@
             background: rgba(30, 41, 59, 0.6);
         }
         
-        /* Slider Styling */
         input[type="range"] {
             --pct: 0%;
             -webkit-appearance: none;
@@ -55,7 +53,6 @@
             cursor: pointer;
             transition: background-size 0.1s ease;
         }
-        
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -67,7 +64,7 @@
             border: 2px solid #fff;
             box-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
             transition: all 0.2s ease;
-            margin-top: -8px; /* Center thumb on track */
+            margin-top: -8px;
             position: relative;
             z-index: 5;
         }
@@ -78,7 +75,6 @@
             letter-spacing: 0.1em;
             font-weight: 800;
         }
-        
         .color-0 { color: #64748b; }
         .color-1 { color: #CD7F32; }
         .color-2 { color: #C0C0C0; }
@@ -110,57 +106,55 @@
             Volver
         </a>
     </div>
-    <div id="app" class="max-w-xl mx-auto px-4 pt-10">
+
+    <div id="app" class="max-w-xl mx-auto px-4 pt-6">
         <!-- Header -->
-        <div class="text-center mb-12">
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
+        <div class="text-center mb-6">
+            <div id="header-anim">
                 <h1 class="text-4xl font-black tracking-tighter uppercase glow-text text-sky-400 mb-1">CETAQUA 20º</h1>
                 <div class="h-1 w-20 bg-sky-500 mx-auto rounded-full mb-4"></div>
                 <p class="text-slate-400 font-bold uppercase tracking-widest text-xs">Misiones de Ahorro de Agua</p>
-            </motion.div>
+            </div>
         </div>
 
         <!-- Formulario -->
-        <div id="form-container" class="space-y-8">
-            <div id="loading-commitments" class="text-center py-20">
+        <div id="form-container" class="space-y-4">
+            <div id="loading-commitments" class="text-center py-10">
                 <div class="w-12 h-12 border-4 border-sky-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                 <p class="text-slate-500 font-bold uppercase tracking-widest text-xs">Cargando misiones...</p>
             </div>
 
-            <div id="commitments-list" class="hidden space-y-6">
-                <!-- Dinámico -->
-            </div>
+            <div id="commitments-list" class="hidden space-y-3"></div>
 
-            <div id="user-info" class="hidden space-y-6 pt-10 pb-12">
+            <div id="user-info" class="hidden space-y-4 pt-6 pb-8">
                 <div class="flex items-center gap-4 mb-2">
                     <div class="h-px flex-1 bg-white/10"></div>
                     <h3 class="text-xs font-black text-sky-400 uppercase tracking-[0.3em]">Tus Datos</h3>
                     <div class="h-px flex-1 bg-white/10"></div>
                 </div>
-                <input type="text" id="nombre" placeholder="Nombre (opcional)" class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all placeholder:text-slate-600 font-semibold">
-                <input type="email" id="email" placeholder="Email (opcional)" class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all placeholder:text-slate-600 font-semibold">
-                <input type="text" id="organizacion" placeholder="Organización / Municipio (opcional)" class="w-full bg-white/5 p-5 rounded-2xl border border-white/10 focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all placeholder:text-slate-600 font-semibold">
-                
+                <input type="text" id="nombre" placeholder="Nombre (opcional)" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all placeholder:text-slate-600 font-semibold text-sm">
+                <input type="email" id="email" placeholder="Email (opcional)" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all placeholder:text-slate-600 font-semibold text-sm">
+                <input type="text" id="organizacion" placeholder="Organización / Municipio (opcional)" class="w-full bg-white/5 p-4 rounded-xl border border-white/10 focus:border-sky-500/50 focus:ring-2 focus:ring-sky-500/20 outline-none transition-all placeholder:text-slate-600 font-semibold text-sm">
                 <div class="flex items-center gap-3 p-2">
                     <input type="checkbox" id="privacy" class="w-5 h-5 rounded border-white/10 bg-white/5 text-sky-500 focus:ring-sky-500/20">
                     <label for="privacy" class="text-xs text-slate-400 font-medium">Acepto la política de privacidad y el tratamiento de mis datos.</label>
                 </div>
-                
-                <input type="text" id="hp" class="hidden" value="">
+                <!-- Honeypot: campo oculto anti-spam -->
+                <input type="text" id="hp" class="hidden" autocomplete="off" value="">
             </div>
         </div>
 
         <!-- Éxito -->
         <div id="success-container" class="hidden py-20 text-center space-y-8">
-            <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }}>
+            <div>
                 <div class="text-8xl mb-4">💧</div>
                 <h2 class="text-4xl font-black text-sky-400 uppercase">¡MISIÓN CUMPLIDA!</h2>
-                <p class="text-slate-300 text-lg">Has sumado <span id="added-liters" class="font-bold text-white text-2xl"></span> Litros semanales.</p>
+                <p class="text-slate-300 text-lg mt-4">Has sumado <span id="added-liters" class="font-bold text-white text-2xl"></span> Litros semanales.</p>
                 <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
                     <a href="panel.html" class="w-full sm:w-auto bg-sky-500 hover:bg-sky-600 px-8 py-4 rounded-full font-bold transition-all">Ver Impacto Global</a>
                     <a href="index.html" class="w-full sm:w-auto bg-white/10 hover:bg-white/20 px-8 py-4 rounded-full font-bold transition-all">Volver al Inicio</a>
                 </div>
-            </motion.div>
+            </div>
         </div>
     </div>
 
@@ -179,89 +173,158 @@
                 Confirmar Compromisos
             </button>
         </div>
+
+        <!-- Debug log (oculto, activar con 5 clics en el título) -->
+        <div id="debug-log" class="mt-4 p-4 bg-black/50 rounded-xl text-[10px] font-mono text-slate-500 overflow-auto max-h-40 hidden">
+            <div class="flex justify-between items-center border-b border-white/10 pb-2 mb-2">
+                <p class="font-bold">DEBUG LOG:</p>
+                <button onclick="testConnection()" class="bg-sky-500/20 hover:bg-sky-500/40 text-sky-400 px-2 py-1 rounded text-[8px] uppercase font-bold">Test Connection</button>
+            </div>
+            <div id="debug-content"></div>
+        </div>
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbywndRxwgUQxL3GTBV8b5ABR0ETNKAWY498NVk1INzsG6gYuDAZBapi64IcOOnb-0QTFA/exec';
+        // ─── Debug logger ───────────────────────────────────────────────────────────
+        const _origLog = console.log;
+        const _origError = console.error;
+        const debugContent = document.getElementById('debug-content');
+        console.log = function(...args) {
+            _origLog.apply(console, args);
+            if (debugContent) {
+                const p = document.createElement('p');
+                p.innerText = '> ' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ');
+                debugContent.appendChild(p);
+            }
+        };
+        console.error = function(...args) {
+            _origError.apply(console, args);
+            if (debugContent) {
+                const p = document.createElement('p');
+                p.className = 'text-red-400';
+                p.innerText = '! ' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ');
+                debugContent.appendChild(p);
+            }
+        };
+
+        // Activar debug con 5 clics en el título
+        let clickCount = 0;
+        document.getElementById('header-anim').onclick = () => {
+            if (++clickCount >= 5) document.getElementById('debug-log').classList.remove('hidden');
+        };
+
+        // ─── Config ─────────────────────────────────────────────────────────────────
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxilLPE4b8aiQzLrt-bTQgG1zuWo5cGTgOjsn4DtbF6ZZq9S9Ehyz-DithjhQ-4-GRrcg/exec';
         const TOKEN = '20cetaqua';
 
         let commitments = [];
         let selections = {};
 
+        // ─── Datos de fallback (si el servidor no responde) ──────────────────────────
+        const FALLBACK_DATA = [
+            { id: 'cepillado', label: 'Cepillado 🪥', icon: '🪥', desc: 'Cerrar el grifo al lavarse los dientes',
+              levels: [{ label:'Sin cambios', liters:0 },{ label:'Cierro 1 vez/día', liters:112 },{ label:'Cierro 2 veces/día', liters:224 },{ label:'Cierro 3 veces/día', liters:336 }] },
+            { id: 'ducha', label: 'Ducha 🚿', icon: '🚿', desc: 'Reducir tiempo de ducha (12L/min)',
+              levels: [{ label:'Sin cambios', liters:0 },{ label:'Reduzco 2 min', liters:168 },{ label:'Reduzco 4 min', liters:336 },{ label:'Reduzco 6 min', liters:504 }] },
+            { id: 'carne_roja', label: 'Carne Roja 🥩', icon: '🥩', desc: 'Reducir consumo semanal',
+              levels: [{ label:'Sin cambios', liters:0 },{ label:'1 ración menos/sem', liters:3000 },{ label:'2 raciones menos/sem', liters:6000 },{ label:'Sin carne roja', liters:9000 }] },
+            { id: 'desperdicio', label: 'Desperdicio 🗑️', icon: '🗑️', desc: 'Evitar tirar comida',
+              levels: [{ label:'Sin cambios', liters:0 },{ label:'Evito tirar 0,5 kg', liters:750 },{ label:'Evito tirar 1 kg', liters:1500 },{ label:'Planificación total', liters:2000 }] },
+            { id: 'lavadora', label: 'Lavadora 🧺', icon: '🧺', desc: 'Carga completa y agua fría',
+              levels: [{ label:'Sin cambios', liters:0 },{ label:'Carga completa', liters:50 },{ label:'Lavado en frío', liters:100 },{ label:'Carga completa + frío', liters:150 }] },
+            { id: 'lavavajillas', label: 'Lavavajillas 🍽️', icon: '🍽️', desc: 'Uso eficiente y lleno',
+              levels: [{ label:'Sin cambios', liters:0 },{ label:'Solo cuando esté lleno', liters:70 },{ label:'Evito prelavado', liters:100 },{ label:'Optimización total', liters:150 }] }
+        ];
+
+        // ─── Init ────────────────────────────────────────────────────────────────────
         async function init() {
-            const loadingEl = document.getElementById('loading-commitments');
+            console.log('Form iniciando...');
+
+            // Animación de entrada
             try {
-                console.log('Iniciando carga de compromisos...');
-                const res = await fetch(`${SCRIPT_URL}?action=commitments`);
-                
-                if (!res.ok) {
-                    throw new Error(`Error de red: ${res.status} ${res.statusText}`);
+                if (typeof window.Motion !== 'undefined') {
+                    const { animate, stagger } = window.Motion;
+                    animate("#header-anim > *", { opacity: [0, 1], y: [20, 0] }, { delay: stagger(0.1), duration: 0.6 });
                 }
-                
-                const data = await res.json();
-                console.log('Datos recibidos:', data);
+            } catch (e) { console.warn('Animación ignorada:', e.message); }
 
-                if (data && data.error) {
-                    throw new Error(`Error del servidor: ${data.error}`);
+            // Temporizador de seguridad: si en 10s no cargó → fallback
+            const safetyTimer = setTimeout(() => {
+                if (commitments.length === 0) {
+                    console.warn('Safety timeout: usando datos locales');
+                    commitments = FALLBACK_DATA;
+                    renderCommitments();
+                    document.getElementById('footer').classList.remove('hidden');
                 }
+            }, 10000);
 
-                if (!Array.isArray(data)) {
-                    throw new Error('La respuesta del servidor no es un listado válido.');
-                }
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 9000);
+
+                const res = await fetch(`${SCRIPT_URL}?action=commitments&t=${Date.now()}`, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                clearTimeout(safetyTimer);
+
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const text = await res.text();
+                let data;
+                try { data = JSON.parse(text); }
+                catch (e) { throw new Error('Respuesta JSON inválida'); }
+
+                console.log('Compromisos recibidos del servidor:', data);
+
+                if (data && data.error) throw new Error(data.error);
+                if (!Array.isArray(data)) throw new Error('Formato inesperado');
 
                 commitments = data;
                 renderCommitments();
                 document.getElementById('footer').classList.remove('hidden');
+
             } catch (err) {
-                console.error('Error detallado:', err);
-                loadingEl.innerHTML = `
-                    <div class="p-6 bg-red-500/20 border border-red-500/50 rounded-2xl text-red-200 text-sm">
-                        <p class="font-bold mb-2">⚠️ Error al cargar misiones</p>
-                        <p class="mb-4">${err.message}</p>
-                        <button onclick="location.reload()" class="bg-red-500 text-white px-4 py-2 rounded-lg font-bold text-xs">Reintentar</button>
-                    </div>
-                `;
+                clearTimeout(safetyTimer);
+                console.error('Error cargando compromisos, usando fallback:', err.message);
+                commitments = FALLBACK_DATA;
+                renderCommitments();
+                document.getElementById('footer').classList.remove('hidden');
             }
         }
 
+        // ─── Render ──────────────────────────────────────────────────────────────────
         function renderCommitments() {
             const list = document.getElementById('commitments-list');
+            if (!list) return;
             list.innerHTML = '';
-            
-            if (!commitments || !Array.isArray(commitments)) {
-                console.error('Commitments no es un array:', commitments);
-                return;
-            }
 
             commitments.forEach(c => {
+                if (!c || !c.id) return;
                 selections[c.id] = { level: 0, liters: 0 };
-                
+
                 const card = document.createElement('div');
-                card.className = 'premium-card p-6 rounded-3xl space-y-4';
+                card.className = 'premium-card p-4 rounded-2xl space-y-3';
                 card.innerHTML = `
                     <div class="flex justify-between items-start">
-                        <div class="flex gap-3">
-                            <span class="text-3xl">${c.icon || '💧'}</span>
+                        <div class="flex gap-2">
+                            <span class="text-2xl">${c.icon || '💧'}</span>
                             <div>
-                                <h3 class="font-bold text-white leading-tight">${c.label || 'Compromiso'}</h3>
-                                <p class="text-xs text-slate-500">${c.desc || ''}</p>
+                                <h3 class="font-bold text-white leading-tight text-sm">${c.label || 'Compromiso'}</h3>
+                                <p class="text-[10px] text-slate-500">${c.desc || ''}</p>
                             </div>
                         </div>
-                        <div class="text-right">
-                            <p id="val-${c.id}" class="text-xl font-black text-slate-400">0 L</p>
+                        <div class="text-right shrink-0 ml-3">
+                            <p id="val-${c.id}" class="text-lg font-black color-0">0 L</p>
                             <p id="label-${c.id}" class="level-label color-0">Sin cambios</p>
                         </div>
                     </div>
-                    
-                    <div class="pt-4 px-2">
-                        <input type="range" min="0" max="3" value="0" step="1" 
+                    <div class="pt-1 px-1">
+                        <input type="range" min="0" max="3" value="0" step="1"
                                id="slider-${c.id}"
                                oninput="updateLevel('${c.id}', this.value)">
-                        <div class="flex justify-between mt-2 px-1">
-                            <span class="text-[10px] font-bold text-slate-600">0</span>
-                            <span class="text-[10px] font-bold text-slate-600">B</span>
-                            <span class="text-[10px] font-bold text-slate-600">P</span>
-                            <span class="text-[10px] font-bold text-slate-600">O</span>
+                        <div class="flex justify-between mt-1 px-1">
+                            <span class="text-[10px] font-bold text-slate-600">—</span>
+                            <span class="text-[10px] font-bold text-amber-800">Bronce</span>
+                            <span class="text-[10px] font-bold text-slate-400">Plata</span>
+                            <span class="text-[10px] font-bold text-amber-400">Oro</span>
                         </div>
                     </div>
                 `;
@@ -273,70 +336,51 @@
             document.getElementById('user-info').classList.remove('hidden');
         }
 
+        // ─── Update level ────────────────────────────────────────────────────────────
         function updateLevel(id, levelStr) {
             const level = parseInt(levelStr);
             const c = commitments.find(item => item.id === id);
             if (!c) return;
 
             let liters = 0;
-            let label = "Sin cambios";
-            const levelNames = ["Sin cambios", "Bronce", "Plata", "Oro"];
+            let label = 'Sin cambios';
 
             if (c.levels && c.levels[level] !== undefined) {
-                const levelInfo = c.levels[level];
-                if (typeof levelInfo === 'object') {
-                    liters = levelInfo.liters || 0;
-                    label = levelInfo.label || levelNames[level];
-                } else {
-                    liters = levelInfo;
-                    label = levelNames[level];
-                }
+                const info = c.levels[level];
+                liters = typeof info === 'object' ? (info.liters || 0) : info;
+                label  = typeof info === 'object' ? (info.label  || label) : ['Sin cambios','Bronce','Plata','Oro'][level];
             }
-            
-            selections[id] = { level: level, liters: liters };
-            
-            const valEl = document.getElementById(`val-${id}`);
-            const labelEl = document.getElementById(`label-${id}`);
+
+            selections[id] = { level, liters };
+
+            const valEl    = document.getElementById(`val-${id}`);
+            const labelEl  = document.getElementById(`label-${id}`);
             const sliderEl = document.getElementById(`slider-${id}`);
-            
-            if (valEl) valEl.innerText = `${liters} L`;
-            if (labelEl) labelEl.innerText = label;
-            
-            if (valEl) valEl.className = `text-xl font-black color-${level} transition-all`;
-            if (labelEl) labelEl.className = `level-label color-${level} transition-all`;
-            
-            // Progressive Fill
-            if (sliderEl) {
-                const pct = (level / 3) * 100;
-                sliderEl.style.setProperty('--pct', `${pct}%`);
+
+            if (valEl)   { valEl.innerText   = `${liters} L`; valEl.className   = `text-lg font-black color-${level} transition-all`; }
+            if (labelEl) { labelEl.innerText = label;         labelEl.className = `level-label color-${level} transition-all`; }
+            if (sliderEl) sliderEl.style.setProperty('--pct', `${(level / 3) * 100}%`);
+
+            if (level > 0 && valEl && typeof window.Motion !== 'undefined') {
+                window.Motion.animate(valEl, { scale: [1, 1.2, 1] }, { duration: 0.3 });
             }
-            
-            const animate = window.motion ? window.motion.animate : (window.Motion ? window.Motion.animate : null);
-            if (level > 0 && valEl && animate) {
-                animate(valEl, { scale: [1, 1.2, 1] }, { duration: 0.3 });
-            }
-            
+
             updateTotal();
         }
 
+        // ─── Total ───────────────────────────────────────────────────────────────────
         function updateTotal() {
-            let totalLiters = 0;
-            Object.keys(selections).forEach(id => {
-                totalLiters += selections[id].liters;
-            });
-            
-            const totalLitersEl = document.getElementById('total-liters-display');
-            const totalM3El = document.getElementById('total-m3-display');
-            
-            if (totalLitersEl) totalLitersEl.innerText = totalLiters;
-            if (totalM3El) totalM3El.innerText = `(${(totalLiters/1000).toFixed(3)} m³)`;
-            
-            const animate = window.motion ? window.motion.animate : (window.Motion ? window.Motion.animate : null);
-            if (totalLiters > 0 && totalLitersEl && animate) {
-                animate(totalLitersEl, { scale: [1, 1.1, 1] }, { duration: 0.2 });
+            const total = Object.values(selections).reduce((acc, s) => acc + s.liters, 0);
+            const totalEl = document.getElementById('total-liters-display');
+            const m3El    = document.getElementById('total-m3-display');
+            if (totalEl) totalEl.innerText = total;
+            if (m3El)    m3El.innerText    = `(${(total / 1000).toFixed(3)} m³)`;
+            if (total > 0 && totalEl && typeof window.Motion !== 'undefined') {
+                window.Motion.animate(totalEl, { scale: [1, 1.1, 1] }, { duration: 0.2 });
             }
         }
 
+        // ─── Submit ──────────────────────────────────────────────────────────────────
         document.getElementById('submit-btn').onclick = async () => {
             if (!document.getElementById('privacy').checked) {
                 alert('Debes aceptar la política de privacidad para continuar.');
@@ -347,27 +391,34 @@
             btn.disabled = true;
             btn.innerText = 'ENVIANDO...';
 
+            // FIX CRÍTICO: action debe ser 'commit' (no 'submit')
             const payload = {
                 action: 'commit',
                 token: TOKEN,
-                nombre: document.getElementById('nombre').value,
-                email: document.getElementById('email').value,
-                organizacion: document.getElementById('organizacion').value,
+                nombre:       document.getElementById('nombre').value.trim(),
+                email:        document.getElementById('email').value.trim(),
+                organizacion: document.getElementById('organizacion').value.trim(),
                 selections: Object.keys(selections).map(id => ({
-                    id: id,
-                    level: selections[id].level,
+                    id,
+                    level:  selections[id].level,
                     liters: selections[id].liters
                 })),
                 hp: document.getElementById('hp').value,
                 ua: navigator.userAgent
             };
 
+            console.log('Enviando payload:', JSON.stringify(payload));
+
             try {
+                // NOTA: No usamos AbortController en el POST porque AbortSignal
+                // no se puede clonar en ciertos contextos (error postMessage).
                 const res = await fetch(SCRIPT_URL, {
                     method: 'POST',
                     body: JSON.stringify(payload)
                 });
+
                 const result = await res.json();
+                console.log('Respuesta del servidor:', result);
 
                 if (result.ok) {
                     document.getElementById('form-container').classList.add('hidden');
@@ -375,20 +426,33 @@
                     document.getElementById('success-container').classList.remove('hidden');
                     document.getElementById('added-liters').innerText = result.added_liters;
                 } else {
-                    alert('Error: ' + (result.error || 'No se pudo procesar.'));
-                    btn.disabled = false;
-                    btn.innerText = 'Confirmar Compromisos';
+                    throw new Error(result.error || 'No se pudo procesar la respuesta.');
                 }
             } catch (err) {
-                console.error('Error:', err);
-                alert('Error de conexión.');
+                console.error('Error en submit:', err.message);
+                alert('Error al enviar: ' + err.message + '\n\nTus datos no se han guardado. Por favor, inténtalo de nuevo.');
                 btn.disabled = false;
                 btn.innerText = 'Confirmar Compromisos';
             }
         };
 
+        // ─── Test conexión (debug) ────────────────────────────────────────────────────
+        async function testConnection() {
+            console.log('--- TEST DE CONEXIÓN ---');
+            try {
+                const res = await fetch(`${SCRIPT_URL}?action=commitments&t=${Date.now()}`);
+                console.log('Status:', res.status);
+                const text = await res.text();
+                console.log('Respuesta (primeros 300 chars):', text.substring(0, 300));
+                try { const j = JSON.parse(text); console.log('JSON válido, tipo:', Array.isArray(j) ? 'Array['+j.length+']' : typeof j); }
+                catch(e) { console.error('JSON inválido'); }
+            } catch(err) {
+                console.error('Fetch fallido:', err.message);
+            }
+            console.log('--- FIN TEST ---');
+        }
+
         init();
     </script>
 </body>
 </html>
-
