@@ -17,9 +17,9 @@
                 linear-gradient(135deg, #0c1a32 0%, #1e293b 100%);
             background-attachment: fixed;
             min-height: 100vh;
-            overflow: hidden;
+            /* FIX: overflow-y:auto en lugar de hidden */
+            overflow-y: auto;
         }
-        /* Elegant Geometric Pattern */
         body::before {
             content: '';
             position: fixed;
@@ -45,11 +45,8 @@
             background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
             pointer-events: none;
         }
-        
-        .gold-glow {
-            text-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
-        }
-        
+        .gold-glow { text-shadow: 0 0 20px rgba(251, 191, 36, 0.4); }
+
         .progress-container {
             background: rgba(0, 0, 0, 0.3);
             border: 2px solid rgba(255, 255, 255, 0.1);
@@ -58,7 +55,6 @@
             position: relative;
             box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
         }
-        
         .progress-fill {
             height: 100%;
             border-radius: 50px;
@@ -66,8 +62,8 @@
             box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
             transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
+            min-width: 0;
         }
-        
         .progress-thumb {
             position: absolute;
             right: -10px;
@@ -81,19 +77,9 @@
             box-shadow: 0 0 20px rgba(251, 191, 36, 0.8);
         }
 
-        .circular-progress {
-            position: relative;
-            width: 180px;
-            height: 180px;
-        }
-        .circular-progress svg {
-            transform: rotate(-90deg);
-        }
-        .circular-progress circle {
-            fill: none;
-            stroke-width: 12;
-            stroke-linecap: round;
-        }
+        .circular-progress { position: relative; width: 180px; height: 180px; }
+        .circular-progress svg { transform: rotate(-90deg); }
+        .circular-progress circle { fill: none; stroke-width: 12; stroke-linecap: round; }
         .bg-circle { stroke: rgba(255, 255, 255, 0.1); }
         .fg-circle {
             stroke: #10b981;
@@ -103,16 +89,9 @@
             filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
         }
 
-        .donut-chart {
-            width: 220px;
-            height: 220px;
-        }
-        
-        .donut-chart svg {
-            width: 220px;
-            height: 220px;
-        }
-        
+        .donut-chart { width: 220px; height: 220px; }
+        .donut-chart svg { width: 220px; height: 220px; }
+
         .horizontal-bar-container {
             background: rgba(0, 0, 0, 0.2);
             height: 32px;
@@ -126,10 +105,11 @@
             background: linear-gradient(to right, #0369a1, #0ea5e9);
             border-radius: 16px;
             transition: width 1s ease-in-out;
+            min-width: 0;
         }
         .horizontal-bar-thumb {
             position: absolute;
-            right: 0;
+            right: 4px;
             top: 50%;
             transform: translateY(-50%);
             width: 24px;
@@ -141,13 +121,41 @@
     </style>
 </head>
 <body class="p-10 flex flex-col gap-10">
-    <!-- Header -->
-    <div class="text-center">
-        <h1 class="text-5xl font-black tracking-tighter uppercase gold-glow text-amber-200 mb-2">20º Aniversario de Cetaqua</h1>
-        <p class="text-sky-400 text-2xl font-bold uppercase tracking-[0.2em]">Huella Hídrica del Evento</p>
+
+    <!-- Botón Volver -->
+    <div class="fixed top-6 left-6 z-50">
+        <a href="index.html" class="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
+            </svg>
+            Volver
+        </a>
     </div>
 
-    <!-- Top Row: Stats -->
+    <!-- Header -->
+    <div class="grid grid-cols-[160px_1fr_160px] items-center gap-4">
+        <div></div>
+        <div class="text-center">
+            <h1 class="text-5xl font-black tracking-tighter uppercase gold-glow text-amber-200 mb-2 cursor-pointer" id="main-title">
+                20º Aniversario de Cetaqua
+            </h1>
+            <p class="text-sky-400 text-2xl font-bold uppercase tracking-[0.2em]">Huella Hídrica del Evento</p>
+            <div id="connection-status" class="hidden mt-3 inline-block bg-red-500/20 border border-red-500/50 text-red-200 text-[10px] px-4 py-1.5 rounded-full font-bold uppercase tracking-widest animate-pulse">
+                📡 Error de conexión
+            </div>
+        </div>
+        <!-- QR Code -->
+        <div class="flex flex-col items-center gap-2">
+            <div class="bg-white p-2.5 rounded-2xl shadow-2xl shadow-sky-500/30 border border-white/20">
+                <img id="qr-code" src="" alt="QR Code" class="w-[120px] h-[120px]" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(window.location.origin)">
+            </div>
+            <p class="text-[10px] font-black uppercase tracking-widest text-sky-400 animate-pulse text-center leading-tight">
+                Escanea para participar
+            </p>
+        </div>
+    </div>
+
+    <!-- Stats Row -->
     <div class="grid grid-cols-4 gap-8 items-center">
         <div class="glass-card p-6 text-center">
             <p class="text-slate-400 text-sm font-bold uppercase mb-4">Huella del Evento:</p>
@@ -157,7 +165,7 @@
             </div>
         </div>
 
-        <div class="glass-card p-6 text-center border-emerald-500/20">
+        <div class="glass-card p-6 text-center">
             <p class="text-slate-400 text-sm font-bold uppercase mb-4">Huella Compensada:</p>
             <div class="flex items-center justify-center gap-4">
                 <span class="text-4xl">🌿</span>
@@ -172,13 +180,13 @@
                     <circle id="pct-circle" class="fg-circle" cx="90" cy="90" r="70"></circle>
                 </svg>
                 <div class="absolute inset-0 flex flex-col items-center justify-center">
-                    <p class="text-slate-400 text-xs font-bold uppercase">% Compensado:</p>
+                    <p class="text-slate-400 text-xs font-bold uppercase">% Compensado</p>
                     <p id="pct-text" class="text-5xl font-black">0%</p>
                 </div>
             </div>
         </div>
 
-        <div class="glass-card p-6 text-center border-amber-500/20">
+        <div class="glass-card p-6 text-center">
             <p class="text-slate-400 text-sm font-bold uppercase mb-4">Huella Restante:</p>
             <div class="flex items-center justify-center gap-4">
                 <span class="text-4xl">🔥</span>
@@ -187,7 +195,7 @@
         </div>
     </div>
 
-    <!-- Middle: Large Progress Bar -->
+    <!-- Progress Bar -->
     <div class="glass-card p-10">
         <div class="progress-container mb-4">
             <div id="progress-bar" class="progress-fill" style="width: 0%">
@@ -202,18 +210,23 @@
 
     <!-- Bottom Row -->
     <div class="grid grid-cols-2 gap-12">
-        <!-- Left: Origin Chart -->
+        <!-- Origen de la Compensación -->
         <div class="glass-card p-8 flex flex-col items-center">
             <h3 class="text-xl font-bold uppercase tracking-widest mb-8">Origen de la Compensación</h3>
-            <div class="flex items-center gap-12">
+            <div class="flex items-center gap-8">
                 <div class="text-right">
                     <p id="pct-asist" class="text-4xl font-black text-amber-400">0%</p>
                     <p class="text-slate-400 text-sm font-bold uppercase">Asistentes</p>
                 </div>
+                <!-- FIX: color del donut más visible (#10b981 en lugar de #065f46) -->
                 <div class="donut-chart relative">
                     <svg width="220" height="220">
-                        <circle class="bg-circle" cx="110" cy="110" r="80" stroke-width="30"></circle>
-                        <circle id="donut-fg" cx="110" cy="110" r="80" stroke-width="30" fill="none" stroke="#065f46" stroke-dasharray="502" stroke-dashoffset="502" transform="rotate(-90 110 110)"></circle>
+                        <circle cx="110" cy="110" r="80" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="30"></circle>
+                        <circle id="donut-fg" cx="110" cy="110" r="80" stroke-width="30" fill="none"
+                                stroke="#10b981"
+                                stroke-dasharray="502" stroke-dashoffset="502"
+                                transform="rotate(-90 110 110)"
+                                style="transition: stroke-dashoffset 1s ease-out; filter: drop-shadow(0 0 8px rgba(16,185,129,0.5))"></circle>
                     </svg>
                     <div class="absolute inset-0 flex items-center justify-center">
                         <span class="text-4xl">🌍</span>
@@ -226,91 +239,143 @@
             </div>
         </div>
 
-        <!-- Right: Top Compromisos -->
+        <!-- Top Compromisos -->
         <div class="glass-card p-8">
             <h3 class="text-xl font-bold uppercase tracking-widest mb-8 text-center">Top Compromisos</h3>
             <div id="top-list" class="space-y-6">
-                <!-- Dinámico -->
+                <p class="text-slate-500 text-center text-sm">Cargando datos...</p>
             </div>
         </div>
     </div>
 
-    <!-- Footer Quote -->
-    <div class="text-center text-slate-500 italic text-sm mt-auto">
-        <p id="footer-quote">Gracias a todos los compromisos individuales, estamos compensando la huella hídrica del evento. ¡Sigamos adelante!</p>
+    <!-- Footer -->
+    <div class="text-center text-slate-500 italic text-sm pb-4">
+        <p>Gracias a todos los compromisos individuales, estamos compensando la huella hídrica del evento. ¡Sigamos adelante!</p>
+        <p class="text-[10px] mt-2 opacity-50">Actualización automática cada 10 segundos</p>
+    </div>
+
+    <!-- Debug log (oculto, 5 clics en título) -->
+    <div id="debug-log" class="p-4 bg-black/50 rounded-xl text-[10px] font-mono text-slate-500 overflow-auto max-h-60 hidden">
+        <div class="flex justify-between items-center border-b border-white/10 pb-2 mb-2">
+            <p class="font-bold">DEBUG LOG:</p>
+            <button onclick="testConnection()" class="bg-sky-500/20 hover:bg-sky-500/40 text-sky-400 px-2 py-1 rounded text-[8px] uppercase font-bold">Test Connection</button>
+        </div>
+        <div id="debug-content"></div>
     </div>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbywndRxwgUQxL3GTBV8b5ABR0ETNKAWY498NVk1INzsG6gYuDAZBapi64IcOOnb-0QTFA/exec';
+        // ─── Debug logger ───────────────────────────────────────────────────────────
+        const _origLog   = console.log;
+        const _origError = console.error;
+        const debugContent = document.getElementById('debug-content');
+        console.log = function(...args) {
+            _origLog.apply(console, args);
+            if (debugContent) {
+                const p = document.createElement('p');
+                p.innerText = '> ' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ');
+                debugContent.appendChild(p);
+            }
+        };
+        console.error = function(...args) {
+            _origError.apply(console, args);
+            if (debugContent) {
+                const p = document.createElement('p');
+                p.className = 'text-red-400';
+                p.innerText = '! ' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' ');
+                debugContent.appendChild(p);
+            }
+        };
 
+        let clickCount = 0;
+        document.getElementById('main-title').onclick = () => {
+            if (++clickCount >= 5) document.getElementById('debug-log').classList.remove('hidden');
+        };
+
+        // ─── Config ─────────────────────────────────────────────────────────────────
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxilLPE4b8aiQzLrt-bTQgG1zuWo5cGTgOjsn4DtbF6ZZq9S9Ehyz-DithjhQ-4-GRrcg/exec';
+
+        // QR code
+        (function() {
+            const qr = document.getElementById('qr-code');
+            if (!qr) return;
+            // Usamos la URL de la página index (reemplaza /panel.html por /index.html si procede)
+            const targetUrl = window.location.href.replace('panel.html', 'index.html');
+            qr.src = `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=${encodeURIComponent(targetUrl)}`;
+        })();
+
+        // ─── Dashboard update ─────────────────────────────────────────────────────
         async function updateDashboard() {
+            const statusEl = document.getElementById('connection-status');
             try {
-                const res = await fetch(`${SCRIPT_URL}?action=dashboard`);
-                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-                
-                const data = await res.json();
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 12000);
+
+                const res = await fetch(`${SCRIPT_URL}?action=dashboard&t=${Date.now()}`, { signal: controller.signal });
+                clearTimeout(timeoutId);
+
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const text = await res.text();
+                let data;
+                try { data = JSON.parse(text); }
+                catch (e) { throw new Error('JSON inválido: ' + text.substring(0, 100)); }
+
                 console.log('Dashboard data:', data);
 
-                if (data.error) return;
+                if (data.error) { throw new Error(data.error); }
+                if (statusEl) statusEl.classList.add('hidden');
 
-                // Stats
-                document.getElementById('total-huella').innerText = `${data.huella_total_m3 || 0} m³`;
-                document.getElementById('comp-total').innerText = `${(data.comp_m3_total || 0).toFixed(1)} m³`;
-                document.getElementById('restante').innerText = `${(data.restante_m3 || 0)} m³`;
-                
-                // Percentages
-                const pct = parseFloat(data.pct_compensado) || 0;
-                document.getElementById('pct-text').innerText = `${Math.round(pct)}%`;
-                document.getElementById('progress-pct').innerText = `${Math.round(pct)}%`;
-                
-                // Progress Bar
-                document.getElementById('progress-bar').style.width = `${pct}%`;
-                document.getElementById('progress-text').innerText = `${(data.comp_m3_total || 0).toFixed(1)} m³ de agua compensada hasta ahora`;
+                // ── Stats ──────────────────────────────────────────────────────────
+                setText('total-huella', `${data.huella_total_m3 || 0} m³`);
+                setText('comp-total',   `${(data.comp_m3_total  || 0).toFixed(1)} m³`);
+                setText('restante',     `${parseFloat(data.restante_m3 || 0).toFixed(1)} m³`);
 
-                // Circular Progress
+                const pct = Math.min(parseFloat(data.pct_compensado) || 0, 100);
+                setText('pct-text',     `${Math.round(pct)}%`);
+                setText('progress-pct', `${Math.round(pct)}%`);
+                setText('progress-text', `${(data.comp_m3_total || 0).toFixed(1)} m³ de agua compensada hasta ahora`);
+
+                const pb = document.getElementById('progress-bar');
+                if (pb) pb.style.width = `${pct}%`;
+
+                // ── Circular progress ──────────────────────────────────────────────
                 const circle = document.getElementById('pct-circle');
-                const radius = 70;
-                const circumference = 2 * Math.PI * radius;
-                const offset = circumference - (pct / 100) * circumference;
-                circle.style.strokeDasharray = `${circumference}`;
-                circle.style.strokeDashoffset = offset;
+                if (circle) {
+                    const circ = 2 * Math.PI * 70;
+                    circle.style.strokeDasharray  = circ;
+                    circle.style.strokeDashoffset = circ - (pct / 100) * circ;
+                }
 
-                // Donut Chart (Asistentes vs Fuente)
-                const asistM3 = data.comp_m3_asist || 0;
+                // ── Donut chart ────────────────────────────────────────────────────
+                const asistM3  = data.comp_m3_asist  || 0;
                 const fuenteM3 = data.comp_m3_fuente || 0;
-                const totalComp = asistM3 + fuenteM3 || 1;
-                const asistPct = Math.round((asistM3 / totalComp) * 100);
-                const fuentePct = 100 - asistPct;
+                const totalComp = (asistM3 + fuenteM3) || 1;
+                const asistPct  = Math.round((asistM3 / totalComp) * 100);
+                setText('pct-asist',  `${asistPct}%`);
+                setText('pct-fuente', `${100 - asistPct}%`);
 
-                document.getElementById('pct-asist').innerText = `${asistPct}%`;
-                document.getElementById('pct-fuente').innerText = `${fuentePct}%`;
-                
                 const donutFg = document.getElementById('donut-fg');
-                const donutCirc = 2 * Math.PI * 80;
-                donutFg.style.strokeDasharray = `${donutCirc}`;
-                donutFg.style.strokeDashoffset = donutCirc - (asistPct / 100) * donutCirc;
+                if (donutFg) {
+                    const donutCirc = 2 * Math.PI * 80;
+                    donutFg.style.strokeDasharray  = donutCirc;
+                    donutFg.style.strokeDashoffset = donutCirc - (asistPct / 100) * donutCirc;
+                }
 
-                // Top Compromisos
+                // ── Top compromisos ────────────────────────────────────────────────
                 const topList = document.getElementById('top-list');
-                topList.innerHTML = '';
-                
-                if (data.top_compromisos && Array.isArray(data.top_compromisos)) {
-                    // Usamos escala logarítmica para que las barras pequeñas sean visibles
-                    // pero mantengan la jerarquía visual
-                    const getLogValue = (val) => Math.log10(val + 1);
+                if (topList && Array.isArray(data.top_compromisos) && data.top_compromisos.length > 0) {
+                    topList.innerHTML = '';
                     const maxCount = Math.max(...data.top_compromisos.map(c => c.count), 1);
-                    const maxLog = getLogValue(maxCount);
+                    const logVal   = v => Math.log10(v + 1);
+                    const maxLog   = logVal(maxCount);
 
-                    data.top_compromisos.forEach((c, i) => {
-                        const currentLog = getLogValue(c.count);
-                        const barPct = maxLog > 0 ? (currentLog / maxLog) * 100 : 0;
-                        
-                        const item = document.createElement('div');
+                    data.top_compromisos.forEach(c => {
+                        const barPct = maxLog > 0 ? (logVal(c.count) / maxLog) * 100 : 0;
+                        const item   = document.createElement('div');
                         item.className = 'space-y-2';
                         item.innerHTML = `
                             <div class="flex justify-between text-sm font-bold uppercase">
                                 <span>${c.label}</span>
-                                <span class="text-sky-400">${c.count.toLocaleString()} L</span>
+                                <span class="text-sky-400">${c.count.toLocaleString('es-ES')} L</span>
                             </div>
                             <div class="horizontal-bar-container">
                                 <div class="horizontal-bar-fill" style="width: ${barPct}%">
@@ -320,15 +385,42 @@
                         `;
                         topList.appendChild(item);
                     });
+                } else if (topList && (!data.top_compromisos || data.top_compromisos.length === 0)) {
+                    topList.innerHTML = '<p class="text-slate-500 text-center text-sm">Aún no hay compromisos registrados.</p>';
                 }
 
             } catch (err) {
-                console.error('Error actualizando dashboard:', err);
+                console.error('Error actualizando dashboard:', err.message);
+                if (statusEl) {
+                    statusEl.innerText = '📡 Error de conexión';
+                    statusEl.classList.remove('hidden');
+                }
             }
         }
 
-        setInterval(updateDashboard, 5000);
+        function setText(id, val) {
+            const el = document.getElementById(id);
+            if (el) el.innerText = val;
+        }
+
+        // ─── Test conexión (debug) ────────────────────────────────────────────────
+        async function testConnection() {
+            console.log('--- TEST DE CONEXIÓN ---');
+            try {
+                const res  = await fetch(`${SCRIPT_URL}?action=dashboard&t=${Date.now()}`);
+                console.log('Status:', res.status);
+                const text = await res.text();
+                console.log('Respuesta (primeros 300 chars):', text.substring(0, 300));
+                try { const j = JSON.parse(text); console.log('JSON válido, claves:', Object.keys(j).join(', ')); }
+                catch(e) { console.error('JSON inválido'); }
+            } catch(err) {
+                console.error('Fetch fallido:', err.message);
+            }
+            console.log('--- FIN TEST ---');
+        }
+
         updateDashboard();
+        setInterval(updateDashboard, 10000);
     </script>
 </body>
 </html>
