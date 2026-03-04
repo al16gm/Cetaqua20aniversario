@@ -8,8 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/motion@10.16.2/dist/motion.js"></script>
     <style>
-        @import "tailwindcss";
-
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0c1a32;
@@ -21,7 +19,6 @@
             justify-content: center;
         }
 
-        /* Background effects */
         .bg-glow {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -41,25 +38,15 @@
             z-index: -1;
         }
 
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 40px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
         .btn-gold {
             background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
             box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3);
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        
         .btn-gold:hover {
             transform: translateY(-5px) scale(1.02);
             box-shadow: 0 20px 40px rgba(251, 191, 36, 0.4);
         }
-
         .btn-gold:active {
             transform: translateY(0) scale(0.98);
         }
@@ -85,16 +72,26 @@
     <div class="bg-glow"></div>
     <div class="geometric-pattern"></div>
 
+    <!-- Acceso Directo Panel (Top Right) -->
+    <div class="fixed top-6 right-6 z-50">
+        <a href="panel.html" class="flex items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all">
+            Dashboard
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+        </a>
+    </div>
+
     <main class="max-w-xl w-full px-6 text-center">
-        <div id="hero-content" class="space-y-12">
+        <div id="hero-content" class="space-y-4">
             <!-- Icono / Logo -->
             <div class="relative inline-block">
-                <div class="water-drop text-8xl mb-2">💧</div>
+                <div class="water-drop text-8xl">💧</div>
                 <div class="absolute -top-4 -right-4 bg-amber-400 text-slate-900 font-black px-3 py-1 rounded-full text-xs tracking-tighter">20 AÑOS</div>
             </div>
 
             <!-- Títulos -->
-            <div class="space-y-4">
+            <div class="space-y-2">
                 <h2 class="text-sky-400 font-black uppercase tracking-[0.4em] text-sm">Aniversario Cetaqua</h2>
                 <h1 class="text-5xl md:text-6xl font-black title-gradient leading-tight tracking-tighter uppercase">
                     Compensa tu<br>Huella Hídrica
@@ -104,38 +101,39 @@
                 </p>
             </div>
 
-            <!-- Botones de Acción -->
-            <div class="pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <!-- Botón de Acción -->
+            <div class="pt-2 flex justify-center">
                 <a href="form.html" class="btn-gold w-full sm:w-auto inline-flex items-center justify-center gap-4 px-10 py-6 rounded-full text-slate-900 font-black uppercase tracking-widest text-lg group">
                     Comenzar Misión
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition-transform group-hover:translate-x-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
                 </a>
-                
-                <a href="panel.html" class="w-full sm:w-auto bg-white/5 hover:bg-white/10 border border-white/10 px-10 py-6 rounded-full text-white font-black uppercase tracking-widest text-lg transition-all">
-                    Ver Impacto
-                </a>
             </div>
 
             <!-- Footer Portada -->
-            <div class="pt-12 flex items-center justify-center gap-8 opacity-40">
-                <div class="h-px w-12 bg-white"></div>
-                <span class="text-[10px] font-bold uppercase tracking-[0.5em]">Barcelona 2026</span>
-                <div class="h-px w-12 bg-white"></div>
+            <div class="pt-12 flex flex-col items-center gap-6">
+                <div class="flex items-center justify-center gap-8 opacity-40">
+                    <div class="h-px w-12 bg-white"></div>
+                    <span class="text-[10px] font-bold uppercase tracking-[0.5em]">Barcelona 2026</span>
+                    <div class="h-px w-12 bg-white"></div>
+                </div>
+                <a href="panel.html" class="text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-sky-400 transition-colors">
+                    Acceso Panel de Impacto
+                </a>
             </div>
         </div>
     </main>
 
     <script>
-        // Animaciones de entrada
-        const { animate, stagger } = Motion;
-
         window.addEventListener('DOMContentLoaded', () => {
-            animate("#hero-content > *", 
-                { opacity: [0, 1], y: [40, 0] }, 
-                { delay: stagger(0.2), duration: 0.8, easing: "ease-out" }
-            );
+            if (typeof window.Motion !== 'undefined') {
+                const { animate, stagger } = window.Motion;
+                animate("#hero-content > *", 
+                    { opacity: [0, 1], y: [40, 0] }, 
+                    { delay: stagger(0.2), duration: 0.8, easing: "ease-out" }
+                );
+            }
         });
     </script>
 </body>
