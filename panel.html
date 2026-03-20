@@ -158,6 +158,348 @@
             color: #38bdf8 !important;
         }
     </style>
+<script>
+    const I18N = {
+  es: {
+    /* ── Global ── */
+    'nav.back':           'Volver',
+    'nav.dashboard':      'Dashboard',
+    'lang.label':         'Idioma',
+    'error.connection':   '📡 Error de conexión',
+
+    /* ── index.html ── */
+    'index.years':        '20 AÑOS',
+    'index.subtitle':     'Compensa tu Huella Hídrica',
+    'index.desc':         'Únete a nuestra misión colectiva y descubre cómo tus acciones diarias pueden proteger el futuro del agua.',
+    'index.cta':          'Comenzar Misión',
+    'index.footer.city':  'Barcelona 2026',
+    'index.panel.link':   'Acceso Panel de Impacto',
+
+    /* ── form.html ── */
+    'form.tagline':       'Misiones de Ahorro de Agua',
+    'form.loading':       'Cargando misiones...',
+    'form.data.title':    'Tus Datos',
+    'form.name':          'Nombre (opcional)',
+    'form.email':         'Email (opcional)',
+    'form.org':           'Organización / Municipio (opcional)',
+    'form.privacy':       'Acepto la política de privacidad y el tratamiento de mis datos.',
+    'form.total.label':   'Ahorro Estimado Total',
+    'form.total.unit':    'L/semana',
+    'form.submit':        'Confirmar Compromisos',
+    'form.sending':       'ENVIANDO...',
+    'form.success.title': '¡MISIÓN CUMPLIDA!',
+    'form.success.desc':  'Has sumado',
+    'form.success.unit':  'Litros semanales.',
+    'form.success.panel': 'Ver Impacto Global',
+    'form.success.home':  'Volver al Inicio',
+    'form.level.none':    'Sin cambios',
+    'form.level.bronze':  'Bronce',
+    'form.level.silver':  'Plata',
+    'form.level.gold':    'Oro',
+
+    /* ── panel.html ── */
+    'panel.tagline':      'Huella Hídrica del Evento',
+    'panel.qr':           'Escanea para participar',
+    'panel.huella':       'Huella del Evento:',
+    'panel.comp':         'Huella Compensada:',
+    'panel.pct':          '% Compensado',
+    'panel.restante':     'Huella Restante:',
+    'panel.progress':     'm³ de agua compensada hasta ahora',
+    'panel.origin.title': 'Origen de la Compensación',
+    'panel.asistentes':   'Asistentes',
+    'panel.fuente':       'Fuente Refrigerada',
+    'panel.top.title':    'Top Compromisos',
+    'panel.top.loading':  'Cargando datos...',
+    'panel.footer':       'Gracias a todos los compromisos individuales, estamos compensando la huella hídrica del evento. ¡Sigamos adelante!',
+    'panel.toggle.desk':  'Vista escritorio',
+    'panel.toggle.mob':   'Vista móvil',
+    'panel.mobile.comp':  'Compensado',
+    'panel.mobile.rest':  'Restante',
+    'panel.mobile.hev':   'Huella Evento',
+    'panel.mobile.hco':   'Compensada',
+
+    /* ── commitments (from backend fallback) ── */
+    'c.cepillado.label':  'Cepillado 🪥',
+    'c.cepillado.desc':   'Cerrar el grifo al lavarse los dientes',
+    'c.cepillado.l0':     'Sin cambios',
+    'c.cepillado.l1':     'Cierro 1 vez/día',
+    'c.cepillado.l2':     'Cierro 2 veces/día',
+    'c.cepillado.l3':     'Cierro 3 veces/día',
+    'c.ducha.label':      'Ducha 🚿',
+    'c.ducha.desc':       'Reducir tiempo de ducha (12L/min)',
+    'c.ducha.l0':         'Sin cambios',
+    'c.ducha.l1':         'Reduzco 2 min',
+    'c.ducha.l2':         'Reduzco 4 min',
+    'c.ducha.l3':         'Reduzco 6 min',
+    'c.carne.label':      'Carne Roja 🥩',
+    'c.carne.desc':       'Reducir consumo semanal',
+    'c.carne.l0':         'Sin cambios',
+    'c.carne.l1':         '1 ración menos/sem',
+    'c.carne.l2':         '2 raciones menos/sem',
+    'c.carne.l3':         'Sin carne roja',
+    'c.restos.label':     'Restos Alimentarios 🗑️',
+    'c.restos.desc':      'Evitar tirar comida',
+    'c.restos.l0':        'Sin cambios',
+    'c.restos.l1':        'Evito tirar 0,5 kg',
+    'c.restos.l2':        'Evito tirar 1 kg',
+    'c.restos.l3':        'Planificación total',
+    'c.lavadora.label':   'Lavadora 🧺',
+    'c.lavadora.desc':    'Carga completa y agua fría',
+    'c.lavadora.l0':      'Sin cambios',
+    'c.lavadora.l1':      'Carga completa',
+    'c.lavadora.l2':      'Lavado en frío',
+    'c.lavadora.l3':      'Carga completa + frío',
+    'c.lava.label':       'Lavavajillas 🍽️',
+    'c.lava.desc':        'Uso eficiente y lleno',
+    'c.lava.l0':          'Sin cambios',
+    'c.lava.l1':          'Solo cuando esté lleno',
+    'c.lava.l2':          'Evito prelavado',
+    'c.lava.l3':          'Optimización total',
+  },
+
+  en: {
+    'nav.back':           'Back',
+    'nav.dashboard':      'Dashboard',
+    'lang.label':         'Language',
+    'error.connection':   '📡 Connection error',
+
+    'index.years':        '20 YEARS',
+    'index.subtitle':     'Offset your Water Footprint',
+    'index.desc':         'Join our collective mission and discover how your daily actions can protect the future of water.',
+    'index.cta':          'Start Mission',
+    'index.footer.city':  'Barcelona 2026',
+    'index.panel.link':   'Impact Dashboard',
+
+    'form.tagline':       'Water Saving Missions',
+    'form.loading':       'Loading missions...',
+    'form.data.title':    'Your Details',
+    'form.name':          'Name (optional)',
+    'form.email':         'Email (optional)',
+    'form.org':           'Organisation / Municipality (optional)',
+    'form.privacy':       'I accept the privacy policy and the processing of my data.',
+    'form.total.label':   'Estimated Total Saving',
+    'form.total.unit':    'L/week',
+    'form.submit':        'Confirm Commitments',
+    'form.sending':       'SENDING...',
+    'form.success.title': 'MISSION ACCOMPLISHED!',
+    'form.success.desc':  'You have added',
+    'form.success.unit':  'litres per week.',
+    'form.success.panel': 'See Global Impact',
+    'form.success.home':  'Back to Home',
+    'form.level.none':    'No change',
+    'form.level.bronze':  'Bronze',
+    'form.level.silver':  'Silver',
+    'form.level.gold':    'Gold',
+
+    'panel.tagline':      'Event Water Footprint',
+    'panel.qr':           'Scan to participate',
+    'panel.huella':       'Event Footprint:',
+    'panel.comp':         'Offset Footprint:',
+    'panel.pct':          '% Offset',
+    'panel.restante':     'Remaining Footprint:',
+    'panel.progress':     'm³ of water offset so far',
+    'panel.origin.title': 'Compensation Origin',
+    'panel.asistentes':   'Attendees',
+    'panel.fuente':       'Chilled Water Source',
+    'panel.top.title':    'Top Commitments',
+    'panel.top.loading':  'Loading data...',
+    'panel.footer':       'Thanks to all individual commitments, we are offsetting the event\'s water footprint. Let\'s keep going!',
+    'panel.toggle.desk':  'Desktop view',
+    'panel.toggle.mob':   'Mobile view',
+    'panel.mobile.comp':  'Offset',
+    'panel.mobile.rest':  'Remaining',
+    'panel.mobile.hev':   'Event Footprint',
+    'panel.mobile.hco':   'Compensated',
+
+    'c.cepillado.label':  'Brushing 🪥',
+    'c.cepillado.desc':   'Turn off the tap while brushing teeth',
+    'c.cepillado.l0':     'No change',
+    'c.cepillado.l1':     'Off 1×/day',
+    'c.cepillado.l2':     'Off 2×/day',
+    'c.cepillado.l3':     'Off 3×/day',
+    'c.ducha.label':      'Shower 🚿',
+    'c.ducha.desc':       'Reduce shower time (12L/min)',
+    'c.ducha.l0':         'No change',
+    'c.ducha.l1':         'Reduce by 2 min',
+    'c.ducha.l2':         'Reduce by 4 min',
+    'c.ducha.l3':         'Reduce by 6 min',
+    'c.carne.label':      'Red Meat 🥩',
+    'c.carne.desc':       'Reduce weekly consumption',
+    'c.carne.l0':         'No change',
+    'c.carne.l1':         '1 serving less/week',
+    'c.carne.l2':         '2 servings less/week',
+    'c.carne.l3':         'No red meat',
+    'c.restos.label':     'Food Waste 🗑️',
+    'c.restos.desc':      'Avoid throwing food away',
+    'c.restos.l0':        'No change',
+    'c.restos.l1':        'Avoid wasting 0.5 kg',
+    'c.restos.l2':        'Avoid wasting 1 kg',
+    'c.restos.l3':        'Full meal planning',
+    'c.lavadora.label':   'Washing Machine 🧺',
+    'c.lavadora.desc':    'Full load and cold water',
+    'c.lavadora.l0':      'No change',
+    'c.lavadora.l1':      'Full load',
+    'c.lavadora.l2':      'Cold wash',
+    'c.lavadora.l3':      'Full load + cold',
+    'c.lava.label':       'Dishwasher 🍽️',
+    'c.lava.desc':        'Efficient use, always full',
+    'c.lava.l0':          'No change',
+    'c.lava.l1':          'Only when full',
+    'c.lava.l2':          'Skip pre-rinse',
+    'c.lava.l3':          'Full optimisation',
+  },
+
+  ca: {
+    'nav.back':           'Tornar',
+    'nav.dashboard':      'Tauler',
+    'lang.label':         'Idioma',
+    'error.connection':   '📡 Error de connexió',
+
+    'index.years':        '20 ANYS',
+    'index.subtitle':     'Compensa la teva Petjada Hídrica',
+    'index.desc':         'Uneix-te a la nostra missió col·lectiva i descobreix com les teves accions diàries poden protegir el futur de l\'aigua.',
+    'index.cta':          'Comença la Missió',
+    'index.footer.city':  'Barcelona 2026',
+    'index.panel.link':   'Accés al Tauler d\'Impacte',
+
+    'form.tagline':       'Missions d\'Estalvi d\'Aigua',
+    'form.loading':       'Carregant missions...',
+    'form.data.title':    'Les teves Dades',
+    'form.name':          'Nom (opcional)',
+    'form.email':         'Correu electrònic (opcional)',
+    'form.org':           'Organització / Municipi (opcional)',
+    'form.privacy':       'Accepto la política de privacitat i el tractament de les meves dades.',
+    'form.total.label':   'Estalvi Estimat Total',
+    'form.total.unit':    'L/setmana',
+    'form.submit':        'Confirmar Compromisos',
+    'form.sending':       'ENVIANT...',
+    'form.success.title': 'MISSIÓ COMPLERTA!',
+    'form.success.desc':  'Has sumat',
+    'form.success.unit':  'litres setmanals.',
+    'form.success.panel': 'Veure Impacte Global',
+    'form.success.home':  'Tornar a l\'Inici',
+    'form.level.none':    'Sense canvis',
+    'form.level.bronze':  'Bronze',
+    'form.level.silver':  'Plata',
+    'form.level.gold':    'Or',
+
+    'panel.tagline':      'Petjada Hídrica de l\'Esdeveniment',
+    'panel.qr':           'Escaneja per participar',
+    'panel.huella':       'Petjada de l\'Esdeveniment:',
+    'panel.comp':         'Petjada Compensada:',
+    'panel.pct':          '% Compensat',
+    'panel.restante':     'Petjada Restant:',
+    'panel.progress':     'm³ d\'aigua compensada fins ara',
+    'panel.origin.title': 'Origen de la Compensació',
+    'panel.asistentes':   'Assistents',
+    'panel.fuente':       'Font Refrigerada',
+    'panel.top.title':    'Top Compromisos',
+    'panel.top.loading':  'Carregant dades...',
+    'panel.footer':       'Gràcies a tots els compromisos individuals, estem compensant la petjada hídrica de l\'esdeveniment. Endavant!',
+    'panel.toggle.desk':  'Vista escriptori',
+    'panel.toggle.mob':   'Vista mòbil',
+    'panel.mobile.comp':  'Compensat',
+    'panel.mobile.rest':  'Restant',
+    'panel.mobile.hev':   'Petjada Esdeveniment',
+    'panel.mobile.hco':   'Compensada',
+
+    'c.cepillado.label':  'Raspallat 🪥',
+    'c.cepillado.desc':   'Tancar l\'aixeta en rentar-se les dents',
+    'c.cepillado.l0':     'Sense canvis',
+    'c.cepillado.l1':     'Tanc 1 vegada/dia',
+    'c.cepillado.l2':     'Tanc 2 vegades/dia',
+    'c.cepillado.l3':     'Tanc 3 vegades/dia',
+    'c.ducha.label':      'Dutxa 🚿',
+    'c.ducha.desc':       'Reduir el temps de dutxa (12L/min)',
+    'c.ducha.l0':         'Sense canvis',
+    'c.ducha.l1':         'Redueixo 2 min',
+    'c.ducha.l2':         'Redueixo 4 min',
+    'c.ducha.l3':         'Redueixo 6 min',
+    'c.carne.label':      'Carn Vermella 🥩',
+    'c.carne.desc':       'Reduir el consum setmanal',
+    'c.carne.l0':         'Sense canvis',
+    'c.carne.l1':         '1 ració menys/setmana',
+    'c.carne.l2':         '2 racions menys/setmana',
+    'c.carne.l3':         'Sense carn vermella',
+    'c.restos.label':     'Restes Alimentàries 🗑️',
+    'c.restos.desc':      'Evitar llençar menjar',
+    'c.restos.l0':        'Sense canvis',
+    'c.restos.l1':        'Evito llençar 0,5 kg',
+    'c.restos.l2':        'Evito llençar 1 kg',
+    'c.restos.l3':        'Planificació total',
+    'c.lavadora.label':   'Rentadora 🧺',
+    'c.lavadora.desc':    'Càrrega completa i aigua freda',
+    'c.lavadora.l0':      'Sense canvis',
+    'c.lavadora.l1':      'Càrrega completa',
+    'c.lavadora.l2':      'Rentat en fred',
+    'c.lavadora.l3':      'Càrrega completa + fred',
+    'c.lava.label':       'Rentavaixelles 🍽️',
+    'c.lava.desc':        'Ús eficient i ple',
+    'c.lava.l0':          'Sense canvis',
+    'c.lava.l1':          'Només quan estigui ple',
+    'c.lava.l2':          'Evito el prerentat',
+    'c.lava.l3':          'Optimització total',
+  }
+};
+
+    // ── i18n engine (shared by all pages) ────────────────────────────────────────
+const LANG_KEY = 'cetaqua_lang';
+
+function getLang() {
+    return localStorage.getItem(LANG_KEY) || 'es';
+}
+
+function setLang(lang) {
+    localStorage.setItem(LANG_KEY, lang);
+    applyLang(lang);
+}
+
+function t(key) {
+    const lang = getLang();
+    return (I18N[lang] && I18N[lang][key]) || I18N['es'][key] || key;
+}
+
+function applyLang(lang) {
+    // Update all data-i18n elements
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const val = (I18N[lang] && I18N[lang][key]) || I18N['es'][key] || key;
+        if (el.tagName === 'INPUT' && el.getAttribute('placeholder')) {
+            el.placeholder = val;
+        } else {
+            el.textContent = val;
+        }
+    });
+    // Update all data-i18n-placeholder elements
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+        const key = el.getAttribute('data-i18n-ph');
+        el.placeholder = (I18N[lang] && I18N[lang][key]) || I18N['es'][key] || key;
+    });
+    // Highlight active button
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('lang-active', btn.dataset.lang === lang);
+    });
+    // Update html lang attribute
+    document.documentElement.lang = lang === 'ca' ? 'ca' : lang === 'en' ? 'en' : 'es';
+}
+
+// Language switcher HTML (injected into each page)
+function renderLangSwitcher() {
+    const cur = getLang();
+    return `
+    <div class="lang-switcher">
+        <button class="lang-btn${cur==='es'?' lang-active':''}" data-lang="es" onclick="setLang('es')">ES</button>
+        <button class="lang-btn${cur==='en'?' lang-active':''}" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn${cur==='ca'?' lang-active':''}" data-lang="ca" onclick="setLang('ca')">CA</button>
+    </div>`;
+}
+
+    // Init on load
+    document.addEventListener('DOMContentLoaded', () => {
+        document.body.insertAdjacentHTML('afterbegin', renderLangSwitcher());
+        applyLang(getLang());
+    });
+    </script>
 </head>
 <body class="p-4 md:p-10">
 
@@ -601,347 +943,6 @@
     setInterval(updateDashboard, 10000);
     </script>
 
-    <script>
-    const I18N = {
-  es: {
-    /* ── Global ── */
-    'nav.back':           'Volver',
-    'nav.dashboard':      'Dashboard',
-    'lang.label':         'Idioma',
-    'error.connection':   '📡 Error de conexión',
-
-    /* ── index.html ── */
-    'index.years':        '20 AÑOS',
-    'index.subtitle':     'Compensa tu Huella Hídrica',
-    'index.desc':         'Únete a nuestra misión colectiva y descubre cómo tus acciones diarias pueden proteger el futuro del agua.',
-    'index.cta':          'Comenzar Misión',
-    'index.footer.city':  'Barcelona 2026',
-    'index.panel.link':   'Acceso Panel de Impacto',
-
-    /* ── form.html ── */
-    'form.tagline':       'Misiones de Ahorro de Agua',
-    'form.loading':       'Cargando misiones...',
-    'form.data.title':    'Tus Datos',
-    'form.name':          'Nombre (opcional)',
-    'form.email':         'Email (opcional)',
-    'form.org':           'Organización / Municipio (opcional)',
-    'form.privacy':       'Acepto la política de privacidad y el tratamiento de mis datos.',
-    'form.total.label':   'Ahorro Estimado Total',
-    'form.total.unit':    'L/semana',
-    'form.submit':        'Confirmar Compromisos',
-    'form.sending':       'ENVIANDO...',
-    'form.success.title': '¡MISIÓN CUMPLIDA!',
-    'form.success.desc':  'Has sumado',
-    'form.success.unit':  'Litros semanales.',
-    'form.success.panel': 'Ver Impacto Global',
-    'form.success.home':  'Volver al Inicio',
-    'form.level.none':    'Sin cambios',
-    'form.level.bronze':  'Bronce',
-    'form.level.silver':  'Plata',
-    'form.level.gold':    'Oro',
-
-    /* ── panel.html ── */
-    'panel.tagline':      'Huella Hídrica del Evento',
-    'panel.qr':           'Escanea para participar',
-    'panel.huella':       'Huella del Evento:',
-    'panel.comp':         'Huella Compensada:',
-    'panel.pct':          '% Compensado',
-    'panel.restante':     'Huella Restante:',
-    'panel.progress':     'm³ de agua compensada hasta ahora',
-    'panel.origin.title': 'Origen de la Compensación',
-    'panel.asistentes':   'Asistentes',
-    'panel.fuente':       'Fuente Refrigerada',
-    'panel.top.title':    'Top Compromisos',
-    'panel.top.loading':  'Cargando datos...',
-    'panel.footer':       'Gracias a todos los compromisos individuales, estamos compensando la huella hídrica del evento. ¡Sigamos adelante!',
-    'panel.toggle.desk':  'Vista escritorio',
-    'panel.toggle.mob':   'Vista móvil',
-    'panel.mobile.comp':  'Compensado',
-    'panel.mobile.rest':  'Restante',
-    'panel.mobile.hev':   'Huella Evento',
-    'panel.mobile.hco':   'Compensada',
-
-    /* ── commitments (from backend fallback) ── */
-    'c.cepillado.label':  'Cepillado 🪥',
-    'c.cepillado.desc':   'Cerrar el grifo al lavarse los dientes',
-    'c.cepillado.l0':     'Sin cambios',
-    'c.cepillado.l1':     'Cierro 1 vez/día',
-    'c.cepillado.l2':     'Cierro 2 veces/día',
-    'c.cepillado.l3':     'Cierro 3 veces/día',
-    'c.ducha.label':      'Ducha 🚿',
-    'c.ducha.desc':       'Reducir tiempo de ducha (12L/min)',
-    'c.ducha.l0':         'Sin cambios',
-    'c.ducha.l1':         'Reduzco 2 min',
-    'c.ducha.l2':         'Reduzco 4 min',
-    'c.ducha.l3':         'Reduzco 6 min',
-    'c.carne.label':      'Carne Roja 🥩',
-    'c.carne.desc':       'Reducir consumo semanal',
-    'c.carne.l0':         'Sin cambios',
-    'c.carne.l1':         '1 ración menos/sem',
-    'c.carne.l2':         '2 raciones menos/sem',
-    'c.carne.l3':         'Sin carne roja',
-    'c.restos.label':     'Restos Alimentarios 🗑️',
-    'c.restos.desc':      'Evitar tirar comida',
-    'c.restos.l0':        'Sin cambios',
-    'c.restos.l1':        'Evito tirar 0,5 kg',
-    'c.restos.l2':        'Evito tirar 1 kg',
-    'c.restos.l3':        'Planificación total',
-    'c.lavadora.label':   'Lavadora 🧺',
-    'c.lavadora.desc':    'Carga completa y agua fría',
-    'c.lavadora.l0':      'Sin cambios',
-    'c.lavadora.l1':      'Carga completa',
-    'c.lavadora.l2':      'Lavado en frío',
-    'c.lavadora.l3':      'Carga completa + frío',
-    'c.lava.label':       'Lavavajillas 🍽️',
-    'c.lava.desc':        'Uso eficiente y lleno',
-    'c.lava.l0':          'Sin cambios',
-    'c.lava.l1':          'Solo cuando esté lleno',
-    'c.lava.l2':          'Evito prelavado',
-    'c.lava.l3':          'Optimización total',
-  },
-
-  en: {
-    'nav.back':           'Back',
-    'nav.dashboard':      'Dashboard',
-    'lang.label':         'Language',
-    'error.connection':   '📡 Connection error',
-
-    'index.years':        '20 YEARS',
-    'index.subtitle':     'Offset your Water Footprint',
-    'index.desc':         'Join our collective mission and discover how your daily actions can protect the future of water.',
-    'index.cta':          'Start Mission',
-    'index.footer.city':  'Barcelona 2026',
-    'index.panel.link':   'Impact Dashboard',
-
-    'form.tagline':       'Water Saving Missions',
-    'form.loading':       'Loading missions...',
-    'form.data.title':    'Your Details',
-    'form.name':          'Name (optional)',
-    'form.email':         'Email (optional)',
-    'form.org':           'Organisation / Municipality (optional)',
-    'form.privacy':       'I accept the privacy policy and the processing of my data.',
-    'form.total.label':   'Estimated Total Saving',
-    'form.total.unit':    'L/week',
-    'form.submit':        'Confirm Commitments',
-    'form.sending':       'SENDING...',
-    'form.success.title': 'MISSION ACCOMPLISHED!',
-    'form.success.desc':  'You have added',
-    'form.success.unit':  'litres per week.',
-    'form.success.panel': 'See Global Impact',
-    'form.success.home':  'Back to Home',
-    'form.level.none':    'No change',
-    'form.level.bronze':  'Bronze',
-    'form.level.silver':  'Silver',
-    'form.level.gold':    'Gold',
-
-    'panel.tagline':      'Event Water Footprint',
-    'panel.qr':           'Scan to participate',
-    'panel.huella':       'Event Footprint:',
-    'panel.comp':         'Offset Footprint:',
-    'panel.pct':          '% Offset',
-    'panel.restante':     'Remaining Footprint:',
-    'panel.progress':     'm³ of water offset so far',
-    'panel.origin.title': 'Compensation Origin',
-    'panel.asistentes':   'Attendees',
-    'panel.fuente':       'Chilled Water Source',
-    'panel.top.title':    'Top Commitments',
-    'panel.top.loading':  'Loading data...',
-    'panel.footer':       'Thanks to all individual commitments, we are offsetting the event\'s water footprint. Let\'s keep going!',
-    'panel.toggle.desk':  'Desktop view',
-    'panel.toggle.mob':   'Mobile view',
-    'panel.mobile.comp':  'Offset',
-    'panel.mobile.rest':  'Remaining',
-    'panel.mobile.hev':   'Event Footprint',
-    'panel.mobile.hco':   'Compensated',
-
-    'c.cepillado.label':  'Brushing 🪥',
-    'c.cepillado.desc':   'Turn off the tap while brushing teeth',
-    'c.cepillado.l0':     'No change',
-    'c.cepillado.l1':     'Off 1×/day',
-    'c.cepillado.l2':     'Off 2×/day',
-    'c.cepillado.l3':     'Off 3×/day',
-    'c.ducha.label':      'Shower 🚿',
-    'c.ducha.desc':       'Reduce shower time (12L/min)',
-    'c.ducha.l0':         'No change',
-    'c.ducha.l1':         'Reduce by 2 min',
-    'c.ducha.l2':         'Reduce by 4 min',
-    'c.ducha.l3':         'Reduce by 6 min',
-    'c.carne.label':      'Red Meat 🥩',
-    'c.carne.desc':       'Reduce weekly consumption',
-    'c.carne.l0':         'No change',
-    'c.carne.l1':         '1 serving less/week',
-    'c.carne.l2':         '2 servings less/week',
-    'c.carne.l3':         'No red meat',
-    'c.restos.label':     'Food Waste 🗑️',
-    'c.restos.desc':      'Avoid throwing food away',
-    'c.restos.l0':        'No change',
-    'c.restos.l1':        'Avoid wasting 0.5 kg',
-    'c.restos.l2':        'Avoid wasting 1 kg',
-    'c.restos.l3':        'Full meal planning',
-    'c.lavadora.label':   'Washing Machine 🧺',
-    'c.lavadora.desc':    'Full load and cold water',
-    'c.lavadora.l0':      'No change',
-    'c.lavadora.l1':      'Full load',
-    'c.lavadora.l2':      'Cold wash',
-    'c.lavadora.l3':      'Full load + cold',
-    'c.lava.label':       'Dishwasher 🍽️',
-    'c.lava.desc':        'Efficient use, always full',
-    'c.lava.l0':          'No change',
-    'c.lava.l1':          'Only when full',
-    'c.lava.l2':          'Skip pre-rinse',
-    'c.lava.l3':          'Full optimisation',
-  },
-
-  ca: {
-    'nav.back':           'Tornar',
-    'nav.dashboard':      'Tauler',
-    'lang.label':         'Idioma',
-    'error.connection':   '📡 Error de connexió',
-
-    'index.years':        '20 ANYS',
-    'index.subtitle':     'Compensa la teva Petjada Hídrica',
-    'index.desc':         'Uneix-te a la nostra missió col·lectiva i descobreix com les teves accions diàries poden protegir el futur de l\'aigua.',
-    'index.cta':          'Comença la Missió',
-    'index.footer.city':  'Barcelona 2026',
-    'index.panel.link':   'Accés al Tauler d\'Impacte',
-
-    'form.tagline':       'Missions d\'Estalvi d\'Aigua',
-    'form.loading':       'Carregant missions...',
-    'form.data.title':    'Les teves Dades',
-    'form.name':          'Nom (opcional)',
-    'form.email':         'Correu electrònic (opcional)',
-    'form.org':           'Organització / Municipi (opcional)',
-    'form.privacy':       'Accepto la política de privacitat i el tractament de les meves dades.',
-    'form.total.label':   'Estalvi Estimat Total',
-    'form.total.unit':    'L/setmana',
-    'form.submit':        'Confirmar Compromisos',
-    'form.sending':       'ENVIANT...',
-    'form.success.title': 'MISSIÓ COMPLERTA!',
-    'form.success.desc':  'Has sumat',
-    'form.success.unit':  'litres setmanals.',
-    'form.success.panel': 'Veure Impacte Global',
-    'form.success.home':  'Tornar a l\'Inici',
-    'form.level.none':    'Sense canvis',
-    'form.level.bronze':  'Bronze',
-    'form.level.silver':  'Plata',
-    'form.level.gold':    'Or',
-
-    'panel.tagline':      'Petjada Hídrica de l\'Esdeveniment',
-    'panel.qr':           'Escaneja per participar',
-    'panel.huella':       'Petjada de l\'Esdeveniment:',
-    'panel.comp':         'Petjada Compensada:',
-    'panel.pct':          '% Compensat',
-    'panel.restante':     'Petjada Restant:',
-    'panel.progress':     'm³ d\'aigua compensada fins ara',
-    'panel.origin.title': 'Origen de la Compensació',
-    'panel.asistentes':   'Assistents',
-    'panel.fuente':       'Font Refrigerada',
-    'panel.top.title':    'Top Compromisos',
-    'panel.top.loading':  'Carregant dades...',
-    'panel.footer':       'Gràcies a tots els compromisos individuals, estem compensant la petjada hídrica de l\'esdeveniment. Endavant!',
-    'panel.toggle.desk':  'Vista escriptori',
-    'panel.toggle.mob':   'Vista mòbil',
-    'panel.mobile.comp':  'Compensat',
-    'panel.mobile.rest':  'Restant',
-    'panel.mobile.hev':   'Petjada Esdeveniment',
-    'panel.mobile.hco':   'Compensada',
-
-    'c.cepillado.label':  'Raspallat 🪥',
-    'c.cepillado.desc':   'Tancar l\'aixeta en rentar-se les dents',
-    'c.cepillado.l0':     'Sense canvis',
-    'c.cepillado.l1':     'Tanc 1 vegada/dia',
-    'c.cepillado.l2':     'Tanc 2 vegades/dia',
-    'c.cepillado.l3':     'Tanc 3 vegades/dia',
-    'c.ducha.label':      'Dutxa 🚿',
-    'c.ducha.desc':       'Reduir el temps de dutxa (12L/min)',
-    'c.ducha.l0':         'Sense canvis',
-    'c.ducha.l1':         'Redueixo 2 min',
-    'c.ducha.l2':         'Redueixo 4 min',
-    'c.ducha.l3':         'Redueixo 6 min',
-    'c.carne.label':      'Carn Vermella 🥩',
-    'c.carne.desc':       'Reduir el consum setmanal',
-    'c.carne.l0':         'Sense canvis',
-    'c.carne.l1':         '1 ració menys/setmana',
-    'c.carne.l2':         '2 racions menys/setmana',
-    'c.carne.l3':         'Sense carn vermella',
-    'c.restos.label':     'Restes Alimentàries 🗑️',
-    'c.restos.desc':      'Evitar llençar menjar',
-    'c.restos.l0':        'Sense canvis',
-    'c.restos.l1':        'Evito llençar 0,5 kg',
-    'c.restos.l2':        'Evito llençar 1 kg',
-    'c.restos.l3':        'Planificació total',
-    'c.lavadora.label':   'Rentadora 🧺',
-    'c.lavadora.desc':    'Càrrega completa i aigua freda',
-    'c.lavadora.l0':      'Sense canvis',
-    'c.lavadora.l1':      'Càrrega completa',
-    'c.lavadora.l2':      'Rentat en fred',
-    'c.lavadora.l3':      'Càrrega completa + fred',
-    'c.lava.label':       'Rentavaixelles 🍽️',
-    'c.lava.desc':        'Ús eficient i ple',
-    'c.lava.l0':          'Sense canvis',
-    'c.lava.l1':          'Només quan estigui ple',
-    'c.lava.l2':          'Evito el prerentat',
-    'c.lava.l3':          'Optimització total',
-  }
-};
-
-    // ── i18n engine (shared by all pages) ────────────────────────────────────────
-const LANG_KEY = 'cetaqua_lang';
-
-function getLang() {
-    return localStorage.getItem(LANG_KEY) || 'es';
-}
-
-function setLang(lang) {
-    localStorage.setItem(LANG_KEY, lang);
-    applyLang(lang);
-}
-
-function t(key) {
-    const lang = getLang();
-    return (I18N[lang] && I18N[lang][key]) || I18N['es'][key] || key;
-}
-
-function applyLang(lang) {
-    // Update all data-i18n elements
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        const val = (I18N[lang] && I18N[lang][key]) || I18N['es'][key] || key;
-        if (el.tagName === 'INPUT' && el.getAttribute('placeholder')) {
-            el.placeholder = val;
-        } else {
-            el.textContent = val;
-        }
-    });
-    // Update all data-i18n-placeholder elements
-    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-        const key = el.getAttribute('data-i18n-ph');
-        el.placeholder = (I18N[lang] && I18N[lang][key]) || I18N['es'][key] || key;
-    });
-    // Highlight active button
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('lang-active', btn.dataset.lang === lang);
-    });
-    // Update html lang attribute
-    document.documentElement.lang = lang === 'ca' ? 'ca' : lang === 'en' ? 'en' : 'es';
-}
-
-// Language switcher HTML (injected into each page)
-function renderLangSwitcher() {
-    const cur = getLang();
-    return `
-    <div class="lang-switcher">
-        <button class="lang-btn${cur==='es'?' lang-active':''}" data-lang="es" onclick="setLang('es')">ES</button>
-        <button class="lang-btn${cur==='en'?' lang-active':''}" data-lang="en" onclick="setLang('en')">EN</button>
-        <button class="lang-btn${cur==='ca'?' lang-active':''}" data-lang="ca" onclick="setLang('ca')">CA</button>
-    </div>`;
-}
-
-    // Init on load
-    document.addEventListener('DOMContentLoaded', () => {
-        document.body.insertAdjacentHTML('afterbegin', renderLangSwitcher());
-        applyLang(getLang());
-    });
-    </script>
+    
 </body>
 </html>
