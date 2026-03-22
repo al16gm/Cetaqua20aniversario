@@ -584,7 +584,7 @@ function renderLangSwitcher() {
         let selections = {};
 
         // ─── Datos de fallback (si el servidor no responde) ──────────────────────────
-      getFallbackData() {
+        function getFallbackData() {
             return [
                 { id: 'cepillado', label: t('c.cepillado.label'), icon: '🪥', desc: t('c.cepillado.desc'),
                   levels: [{ label:t('c.cepillado.l0'), liters:0 },{ label:t('c.cepillado.l1'), liters:112 },{ label:t('c.cepillado.l2'), liters:224 },{ label:t('c.cepillado.l3'), liters:336 }] },
