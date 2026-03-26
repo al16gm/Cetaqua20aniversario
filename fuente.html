@@ -152,7 +152,7 @@
             </div>
             <div class="glass-card px-6 py-4 text-center min-w-[130px]">
                 <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-1">Acumulado</p>
-                <p id="acum-display" class="text-4xl font-black text-sky-400">— m³</p>
+                <p id="acum-display" class="text-4xl font-black text-sky-400">— L</p>
             </div>
             <div class="glass-card px-6 py-4 text-center min-w-[100px]">
                 <p class="text-slate-500 text-[10px] font-bold uppercase tracking-widest mb-1">Por uso</p>
@@ -174,7 +174,7 @@
     </main>
 
     <script>
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzw5Cgic_VRmp-_LlVPCjb9BfV1N1Z_MsMGXb8YB6CTuBvm-SrqfoLY-9Al2K6RpT-Qcg/exec';
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxWJthJ9FJAI0whB4wnlpOWpkSIeKL3pHEi3OdCAJRFBy8olsEMa6y7ys4vt5j3sL9eg/exec';
         const TOKEN = '20cetaqua';
 
         let usesThisSession = 0;
@@ -226,7 +226,7 @@
             countEl.textContent = uses;
             pop(countEl);
 
-            acumEl.textContent = result.acumulado_m3 + ' m³';
+            acumEl.textContent = result.acumulado_m3 + ' L';
             pop(acumEl);
         }
 
